@@ -8,7 +8,7 @@ const customJestConfig = {
   setupFilesAfterEnv: ["<rootDir>/jest.setup.js"],
   moduleNameMapper: {
     '\\.(jpg|jpeg|png|gif|webp|svg|mp4)$': '<rootDir>/__mocks__/fileMock.js',
-    '^@/(.*)$': '<rootDir>/src/$1',  // Add this line for alias mapping
+    '^@/(.*)$': '<rootDir>/src/$1',  
   },
 };
 
