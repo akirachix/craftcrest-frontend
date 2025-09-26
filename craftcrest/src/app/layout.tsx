@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Nunito, Nunito_Sans } from "next/font/google";
+import { Nunito } from "next/font/google";
 import "./globals.css";
 
 
@@ -9,11 +9,6 @@ const nunito = Nunito({
   weight: ["400", "700"], 
 });
 
-const nunitoSans = Nunito_Sans({
-  variable: "--font-nunito-sans",
-  subsets: ["latin"],
-  weight: ["400", "700"],
-});
 
 export const metadata: Metadata = {
   title: "CraftCrest Dashboard",
@@ -28,7 +23,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${nunito.variable} ${nunitoSans.variable} antialiased`}
+        className={`${nunito.className} antialiased`}
       >
         {children}
       </body>
