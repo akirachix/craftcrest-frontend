@@ -37,11 +37,8 @@ export const Dashboard = () => {
   }
 
   return (
-    // Add a responsive container wrapper with max-width and horizontal padding for smaller sizes
     <div className="flex-1 p-8 bg-[#f0e5e6] max-w-[1280px] mx-auto px-4 sm:px-6 md:px-8">
       <h1 className="text-3xl font-semibold text-gray-900 ml-20 mt-[-20]">Dashboard</h1>
-
-      {/* Wrap the stats cards to respond to smaller screen widths */}
       <div className="grid grid-cols-1 w-full md:grid-cols-3 gap-2 mb-3">
         <StatsCard
           title="Total Sales"
