@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 import { LucideIcon } from 'lucide-react';
 
 export interface Payment {
@@ -93,7 +93,7 @@ export interface StatsCardProps {
   icon: LucideIcon;
   iconColor?: string;
 }
-=======
+
 export type Seller = {
   id: number;
   user_type: string;
@@ -120,4 +120,4 @@ export type Payment = {
   amount: string;
   artisan: number;
 };
->>>>>>> 46ac5e4a615909039317161fe4b650a90c8e59bf
+
