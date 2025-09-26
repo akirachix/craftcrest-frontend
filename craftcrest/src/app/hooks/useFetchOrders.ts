@@ -1,19 +1,32 @@
+'use client';
 import { useState, useEffect } from "react";
-import { fetchOrders } from "../utils/fetchOrders";
+import { fetchOrders as fetchOrdersAPI } from "../utils/fetchOrders";
 import type { Order } from "../utils/type";
 
-export const useOrders = () => {
+const useFetchOrders = () => {
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<Error | null>(null);
+  const [error, setError] = useState<string | null>(null);
+
+ 
+  const loadOrders = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const data = await fetchOrdersAPI();
+      setOrders(data);
+    } catch (error) {
+      setError((error as Error).message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    setLoading(true);
-    fetchOrders()
-      .then((data) => setOrders(data))
-      .catch((error) => setError(error as Error))
-      .finally(() => setLoading(false));
+    loadOrders();
   }, []);
 
   return { orders, loading, error };
 };
+
+export default useFetchOrders;

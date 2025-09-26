@@ -1,4 +1,7 @@
+
+
 const baseUrl = "/api/orders"
+
 
 export async function fetchOrders() {
   try {
@@ -12,6 +15,7 @@ export async function fetchOrders() {
     throw new Error("Couldn't fetch orders" + (error as Error).message);
   }
 }
+
 
 
 

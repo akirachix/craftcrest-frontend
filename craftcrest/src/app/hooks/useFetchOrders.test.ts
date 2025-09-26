@@ -1,38 +1,111 @@
-import { renderHook } from '@testing-library/react';
-import { waitFor } from '@testing-library/react';
-import { useOrders } from './useFetchOrders';
+import { renderHook, waitFor } from '@testing-library/react';
+import useFetchOrders  from './useFetchOrders';
+import {  fetchOrders } from '../utils/fetchOrders';
 
 jest.mock('../utils/fetchOrders');
-import { fetchOrders as mockFetchOrders } from '../utils/fetchOrders';
+
+const mockGetOrders = fetchOrders as jest.MockedFunction<typeof fetchOrders>;
+const mockFetchOrders = fetchOrders as jest.MockedFunction<typeof fetchOrders>;
+
+describe('useFetchOrders hook', () => {
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
+  it('should start loading state correctly', () => {
+    mockGetOrders.mockReturnValue(new Promise(() => {}));
+    const { result } = renderHook(() => useFetchOrders());
+
+    expect(result.current.loading).toBe(true);
+    expect(result.current.orders).toEqual([]);
+    expect(result.current.error).toBeNull();
+  });
+
+  it('should handle success state', async () => {
+    const orders = [
+      { id: 1, product: 'Product 1', quantity: 2 },
+      { id: 2, product: 'Product 2', quantity: 1 },
+    ];
+    mockGetOrders.mockResolvedValue(orders);
+    const { result } = renderHook(() => useFetchOrders());
+
+    expect(result.current.loading).toBe(true);
+
+    await waitFor(() => expect(result.current.loading).toBe(false));
+
+    expect(result.current.orders).toEqual(orders);
+    expect(result.current.error).toBeNull();
+  });
+
+  it('should handle empty orders', async () => {
+    mockGetOrders.mockResolvedValue([]);
+    const { result } = renderHook(() => useFetchOrders());
+
+    await waitFor(() => expect(result.current.loading).toBe(false));
+    expect(result.current.orders).toEqual([]);
+    expect(result.current.error).toBeNull();
+  });
+
+  it('should handle error state', async () => {
+    const mockError = new Error('Failed to fetch');
+    mockGetOrders.mockRejectedValue(mockError);
+    const { result } = renderHook(() => useFetchOrders());
+
+    expect(result.current.loading).toBe(true);
+
+    await waitFor(() => expect(result.current.loading).toBe(false));
+    expect(result.current.orders).toEqual([]);
+    expect(result.current.error).toBe('Failed to fetch');
+  });
+});
 
 describe('useOrders hook', () => {
   afterEach(() => {
     jest.clearAllMocks();
   });
 
-  it('should handle empty state', async () => {
-    (mockFetchOrders as jest.Mock).mockResolvedValue([]);
-    const { result } = renderHook(() => useOrders());
-    await waitFor(() => expect(result.current.loading).toBe(false));
+  it('should start loading state correctly', () => {
+    mockFetchOrders.mockReturnValue(new Promise(() => {})); 
+    const { result } = renderHook(() => useFetchOrders());
+
+    expect(result.current.loading).toBe(true);
     expect(result.current.orders).toEqual([]);
     expect(result.current.error).toBeNull();
   });
 
   it('should handle success state', async () => {
-    const mockData = [{ id: 1, item: 'item1' }];
-    (mockFetchOrders as jest.Mock).mockResolvedValue(mockData);
-    const { result } = renderHook(() => useOrders());
+    const mockData = [
+      { id: 1, item: 'item1' },
+    ];
+    mockFetchOrders.mockResolvedValue(mockData);
+    const { result } = renderHook(() => useFetchOrders());
+
+    expect(result.current.loading).toBe(true);
+
     await waitFor(() => expect(result.current.loading).toBe(false));
+
     expect(result.current.orders).toEqual(mockData);
+    expect(result.current.error).toBeNull();
+  });
+
+  it('should handle empty state', async () => {
+    mockFetchOrders.mockResolvedValue([]);
+    const { result } = renderHook(() => useFetchOrders());
+
+    await waitFor(() => expect(result.current.loading).toBe(false));
+    expect(result.current.orders).toEqual([]);
     expect(result.current.error).toBeNull();
   });
 
   it('should handle error state', async () => {
     const mockError = new Error('fetch error');
-    (mockFetchOrders as jest.Mock).mockRejectedValue(mockError);
-    const { result } = renderHook(() => useOrders());
+    mockFetchOrders.mockRejectedValue(mockError);
+    const { result } = renderHook(() => useFetchOrders());
+
+    expect(result.current.loading).toBe(true);
+
     await waitFor(() => expect(result.current.loading).toBe(false));
     expect(result.current.orders).toEqual([]);
-    expect(result.current.error).toBe(mockError);
+    expect(result.current.error).toBe(mockError.message);
   });
 });

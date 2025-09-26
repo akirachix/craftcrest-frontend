@@ -1,3 +1,6 @@
+
+const baseUrl = process.env.BASE_URL ;
+
 export async function GET() {
     const baseUrl = process.env.BASE_URL;
     if (!baseUrl) {

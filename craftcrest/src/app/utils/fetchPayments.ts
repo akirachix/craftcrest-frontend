@@ -1,3 +1,4 @@
+
 const baseUrl = "/api/payments"
 
 export async function fetchPayments() {
@@ -12,3 +13,4 @@ export async function fetchPayments() {
     throw new Error("Couldn't fetch payments" + (error as Error).message);
   }
 }
+

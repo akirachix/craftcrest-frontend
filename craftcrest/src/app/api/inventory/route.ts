@@ -1,9 +1,8 @@
-
-const baseUrl = process.env.BASE_URL;
+const baseUrl = process.env.BASE_URL ;
 export async function GET() {
   try {
     const response = await fetch(
-      `${baseUrl}/ratings/`
+      `${baseUrl}/inventory/`
     );
     const result = await response.json();
     return new Response(JSON.stringify(result), {
@@ -14,5 +13,4 @@ export async function GET() {
       status: 500,
     });
   }
-
 }
