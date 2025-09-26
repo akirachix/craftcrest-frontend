@@ -1,15 +1,16 @@
 
 const baseUrl ="api/ratings"
 
-export async function getRatings() {
+
+export async function fetchRatings() {
   try {
     const response = await fetch(baseUrl);
     if (!response.ok) {
-      throw new Error("Failed to fetch ratings: " + response.status);
+      throw new Error("Unable to fetch ratings. Please try again later.: " + response.status);
     }
-    const result = await response.json();
-    return result;
+    const data = await response.json();
+    return data;
   } catch (error) {
-    throw new Error("Couldn't fetch Ratings" + (error as Error).message);
+    throw new Error("Couldn't fetch ratings" + (error as Error).message);
   }
 }

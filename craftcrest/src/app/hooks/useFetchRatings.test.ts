@@ -2,9 +2,9 @@ import { renderHook, waitFor } from '@testing-library/react';
 import useFetchRatings from './useFetchRatings';
 
 jest.mock('../utils/fetchRatings');
-import { getRatings } from '../utils/fetchRatings';
+import { fetchRatings } from '../utils/fetchRatings';
 
-const mockGetRatings = getRatings as jest.MockedFunction<typeof getRatings>;
+const mockGetRatings = fetchRatings as jest.MockedFunction<typeof fetchRatings>;
 
 describe('useFetchRatings hook', () => {
   afterEach(() => {

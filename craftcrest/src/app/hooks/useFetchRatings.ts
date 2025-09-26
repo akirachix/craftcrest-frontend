@@ -1,6 +1,7 @@
+
 'use client';
 import { useState, useEffect } from "react";
-import { getRatings as apiGetRatings } from "../utils/fetchRatings";
+import { fetchRatings as apiGetRatings } from "../utils/fetchRatings";
 import type { Rating } from "../utils/type";
 
 const useFetchRatings = () => {
@@ -29,3 +30,7 @@ const useFetchRatings = () => {
 };
 
 export default useFetchRatings;
+
+
+
+

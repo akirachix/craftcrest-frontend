@@ -1,6 +1,6 @@
 'use client';
 import { useState, useEffect } from "react";
-import { getPayments } from "../utils/fetchPayments";
+import { fetchPayments as fetchPaymentsAPI } from "../utils/fetchPayments";
 import type { Payment } from "../utils/type";
 
 const useFetchPayments = () => {
@@ -8,11 +8,12 @@ const useFetchPayments = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const fetchPayments = async () => {
+ 
+  const loadPayments = async () => {
     setLoading(true);
     setError(null);
     try {
-      const data = await getPayments();
+      const data = await fetchPaymentsAPI();  
       setPayments(data);
     } catch (error) {
       setError((error as Error).message);
@@ -22,7 +23,7 @@ const useFetchPayments = () => {
   };
 
   useEffect(() => {
-    fetchPayments();
+    loadPayments();
   }, []);
 
   return { payments, loading, error };

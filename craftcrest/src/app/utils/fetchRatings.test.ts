@@ -1,4 +1,5 @@
-import { getRatings } from './fetchRatings';
+
+import { fetchRatings } from "./fetchRatings";
 
 const mockFetchResponse = (data: any, ok = true, status = 200) => ({
   ok,
@@ -14,7 +15,7 @@ describe('getRatings', () => {
   it('returns empty array when response is empty', async () => {
     global.fetch = jest.fn(() => Promise.resolve(mockFetchResponse([], true))) as jest.Mock;
 
-    const data = await getRatings();
+    const data = await fetchRatings();
 
     expect(data).toEqual([]);
     expect(global.fetch).toHaveBeenCalledWith('api/ratings');
@@ -24,7 +25,7 @@ describe('getRatings', () => {
     const mockData = [{ id: 1, rating: 5 }];
     global.fetch = jest.fn(() => Promise.resolve(mockFetchResponse(mockData, true))) as jest.Mock;
 
-    const data = await getRatings();
+    const data = await fetchRatings();
 
     expect(data).toEqual(mockData);
   });
@@ -32,12 +33,16 @@ describe('getRatings', () => {
   it('throws an error when response is not ok', async () => {
     global.fetch = jest.fn(() => Promise.resolve(mockFetchResponse(null, false, 404))) as jest.Mock;
 
-    await expect(getRatings()).rejects.toThrow('Failed to fetch ratings: 404');
+    await expect(fetchRatings()).rejects.toThrow('Failed to fetch ratings: 404');
   });
 
   it('throws an error when fetch itself fails', async () => {
     global.fetch = jest.fn(() => Promise.reject(new Error('Network failure'))) as jest.Mock;
 
-    await expect(getRatings()).rejects.toThrow("Couldn't fetch RatingsNetwork failure");
+    await expect(fetchRatings()).rejects.toThrow("Couldn't fetch RatingsNetwork failure");
   });
 });
+
+
+
+

@@ -1,15 +1,21 @@
 
+
 const baseUrl = "/api/orders"
 
-export async function getOrders() {
+
+export async function fetchOrders() {
   try {
     const response = await fetch(baseUrl);
     if (!response.ok) {
-      throw new Error("Failed to fetch orders: " + response.status);
+      throw new Error("Unable to fetch orders. Please try again later.: " + response.status);
     }
-    const result = await response.json();
-    return result;
+    const data = await response.json();
+    return data;
   } catch (error) {
     throw new Error("Couldn't fetch orders" + (error as Error).message);
   }
 }
+
+
+
+

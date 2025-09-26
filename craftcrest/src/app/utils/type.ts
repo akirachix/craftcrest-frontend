@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { LucideIcon } from 'lucide-react';
 
 export interface Payment {
@@ -92,3 +93,31 @@ export interface StatsCardProps {
   icon: LucideIcon;
   iconColor?: string;
 }
+=======
+export type Seller = {
+  id: number;
+  user_type: string;
+  first_name: string;
+  last_name: string;
+  created_at?: string;
+};
+
+export type Order = {
+  id: number;
+  artisan: number;
+  status: string;
+  order?: number;
+};
+
+export type Rating = {
+  id: number;
+  rating: number;
+  order: number;
+};
+
+export type Payment = {
+  id: number;
+  amount: string;
+  artisan: number;
+};
+>>>>>>> 46ac5e4a615909039317161fe4b650a90c8e59bf
