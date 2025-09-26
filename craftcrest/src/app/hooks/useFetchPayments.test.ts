@@ -13,7 +13,6 @@ describe('useFetchPayments hook', () => {
   });
 
   it('should start loading state correctly', () => {
-    // Return a promise that never resolves to simulate loading
     mockGetPayments.mockReturnValue(new Promise(() => {}));
     const { result } = renderHook(() => useFetchPayments());
     expect(result.current.loading).toBe(true);
