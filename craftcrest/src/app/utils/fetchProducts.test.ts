@@ -2,10 +2,7 @@
 import { getProducts } from './fetchProducts';
 
 global.fetch = jest.fn();
-
-
 const mockJson = jest.fn();
-
 describe('getProducts', () => {
   beforeEach(() => {
     (global.fetch as jest.Mock).mockReset();

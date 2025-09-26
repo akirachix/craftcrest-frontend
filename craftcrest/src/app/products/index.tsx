@@ -34,7 +34,6 @@ export default function ProductManagement() {
         return matchesCategory && matchesSearch;
     });
 
-
     const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
     const startIndex = (currentPage - 1) * itemsPerPage;
     const currentProducts = filteredProducts.slice(startIndex, startIndex + itemsPerPage);
@@ -51,25 +50,25 @@ export default function ProductManagement() {
     if (error) return <div className="p-8 text-red-600">Error: {error}</div>;
 
     return (
-        <div className="min-h-screen bg-[#F5E8D8]">
-            <div className="p-12">
+        <div className="min-h-screen bg-[#F5E8D8] relative">
+            <div className="p-12 pb-[100px]">
                 <h1 className="text-3xl font-bold text-[#5D070D] mb-2">Product Management</h1>
                 <p className="text-gray-800 mb-8">Manage and review marketplace products</p>
-                <div className="flex gap-5 mb-6">
-                    <div className="relative flex-1 max-w-md">
+                <div className="flex gap-5 mb-6 flex-wrap">
+                    <div className="relative flex-1 min-w-[250px] max-w-md">
                         <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-[#5D070D]" size={20} />
                         <input
                             type="text"
                             placeholder="Search by product name or category..."
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
-                            className="w-full pl-10 pr-4 py-2 text-[#5D070D] border border-[#5D070D] rounded-[12px] focus:outline-none focus:ring-2 focus:ring-gray-300 bg-white cursor-pointer"
+                            className="w-full pl-10 pr-4 py-2 text-[#5D070D] border border-[#5D070D] rounded-[12px] focus:outline-none focus:ring-2 focus:ring-gray-300 bg-white"
                         />
                     </div>
                     <select
                         value={selectedCategory}
                         onChange={(e) => setSelectedCategory(e.target.value)}
-                        className="w-50 px-1 py-2 text-[#5D070D] border border-[#5D070D] rounded-[12px] focus:outline-none focus:ring-[#5D070D]/30 bg-white cursor-pointer"
+                        className="px-4 py-2 text-[#5D070D] border border-[#5D070D] rounded-[12px] focus:outline-none focus:ring-[#5D070D]/30 bg-white min-w-[180px]"
                     >
                         {categories.map((category) => (
                             <option key={category.value} value={category.value}>
@@ -130,31 +129,6 @@ export default function ProductManagement() {
                             </tbody>
                         </table>
                     </div>
-                    <div className="flex items-center justify-center gap-4 p-4 bg-gray-50 rounded-b-lg fixed bottom-5 right-[45%]">
-                        <button
-                            onClick={handlePreviousPage}
-                            disabled={currentPage === 1}
-                            className={`px-4 py-2 rounded-md cursor-pointer ${currentPage > 1
-                                    ? 'bg-[#5D070D] text-white'
-                                    : 'bg-white text-[#5D070D] border border-gray-400 opacity-50'
-                                }`}
-                        >
-                            Previous
-                        </button>
-                        <span className="text-sm text-[#5D070D]">
-                            Page {currentPage} of {totalPages}
-                        </span>
-                        <button
-                            onClick={handleNextPage}
-                            disabled={currentPage === totalPages}
-                            className={`px-4 py-2 rounded-md cursor-pointer ${currentPage < totalPages
-                                    ? 'bg-[#5D070D] text-white'
-                                    : 'bg-white text-[#5D070D] border border-gray-400 opacity-50'
-                                }`}
-                        >
-                            Next
-                        </button>
-                    </div>
                 </div>
 
                 {isModalOpen && selectedProduct && (
@@ -175,13 +149,13 @@ export default function ProductManagement() {
                                     height={200}
                                 />
                             </div>
-                            <div className="space-y-3 ">
+                            <div className="space-y-3">
                                 <p className="px-5 py-1 text-[#5D070D] text-[16px]"><strong className="mr-1 text-gray-700">Product Name:</strong> {selectedProduct.product_name.charAt(0).toUpperCase() + selectedProduct.product_name.slice(1)}</p>
                                 <p className="px-5 py-1 text-[#5D070D] text-[16px]"><strong className="mr-1 text-gray-700">Category:</strong> {selectedProduct.category.charAt(0).toUpperCase() + selectedProduct.category.slice(1)}</p>
                                 <p className="px-5 py-1 text-[#5D070D] text-[16px]"><strong className="mr-1 text-gray-700">Price:</strong> Ksh {selectedProduct.price}</p>
                                 <p className="px-5 py-1 text-[#5D070D] text-[16px]"><strong className="mr-1 text-gray-700">Stock:</strong> {selectedProduct.stock_quantity}</p>
                                 <p className="px-5 py-1 text-[#5D070D] text-[16px]"><strong className="mr-1 text-gray-700">Customizable:</strong> {selectedProduct.is_customizable ? "Yes" : "No"}</p>
-                                <p className="px-5 py-1 text-[#5D070D] text-[16px] "><strong className="mr-1 text-gray-700">Description:</strong> {selectedProduct.description.charAt(0).toUpperCase() + selectedProduct.description.slice(1)}</p>
+                                <p className="px-5 py-1 text-[#5D070D] text-[16px]"><strong className="mr-1 text-gray-700">Description:</strong> {selectedProduct.description.charAt(0).toUpperCase() + selectedProduct.description.slice(1)}</p>
                                 {selectedProduct.is_customizable && (
                                     <p className="px-5 py-1 text-[#5D070D] text-[16px]">
                                         <strong className="mr-1 text-gray-700">Custom Options:</strong> {selectedProduct.custom_options || "None"}
@@ -197,6 +171,34 @@ export default function ProductManagement() {
                         </div>
                     </div>
                 )}
+            </div>
+
+            <div className="fixed bottom-4 left-1/2 transform -translate-x-1/2 flex items-center justify-center gap-4 p-3 bg-white rounded-lg shadow-md z-40 w-full max-w-md">
+                <button
+                    onClick={handlePreviousPage}
+                    disabled={currentPage === 1}
+                    className={`px-4 py-2 rounded-md cursor-pointer text-sm font-medium ${
+                        currentPage > 1
+                            ? 'bg-[#5D070D] text-white'
+                            : 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                    }`}
+                >
+                    Previous
+                </button>
+                <span className="text-sm text-[#5D070D] whitespace-nowrap">
+                    Page {currentPage} of {totalPages || 1}
+                </span>
+                <button
+                    onClick={handleNextPage}
+                    disabled={currentPage === totalPages}
+                    className={`px-4 py-2 rounded-md cursor-pointer text-sm font-medium ${
+                        currentPage < totalPages
+                            ? 'bg-[#5D070D] text-white'
+                            : 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                    }`}
+                >
+                    Next
+                </button>
             </div>
         </div>
     );
