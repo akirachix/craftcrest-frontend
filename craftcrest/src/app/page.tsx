@@ -1,8 +1,10 @@
-import Image from "next/image";
+"use client";
+import SellersManagement from "./sellerManagement/page";
 
-export default function Home() {
+export default function Page() {
   return (
-<></>
+   <div>
+    <SellersManagement/>
+   </div>
   );
 }
-
