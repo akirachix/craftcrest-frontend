@@ -177,11 +177,10 @@ export default function ProductManagement() {
                 <button
                     onClick={handlePreviousPage}
                     disabled={currentPage === 1}
-                    className={`px-4 py-2 rounded-md cursor-pointer text-sm font-medium ${
-                        currentPage > 1
+                    className={`px-4 py-2 rounded-md cursor-pointer text-sm font-medium ${currentPage > 1
                             ? 'bg-[#5D070D] text-white'
                             : 'bg-gray-100 text-gray-400 cursor-not-allowed'
-                    }`}
+                        }`}
                 >
                     Previous
                 </button>
@@ -191,11 +190,10 @@ export default function ProductManagement() {
                 <button
                     onClick={handleNextPage}
                     disabled={currentPage === totalPages}
-                    className={`px-4 py-2 rounded-md cursor-pointer text-sm font-medium ${
-                        currentPage < totalPages
+                    className={`px-4 py-2 rounded-md cursor-pointer text-sm font-medium ${currentPage < totalPages
                             ? 'bg-[#5D070D] text-white'
                             : 'bg-gray-100 text-gray-400 cursor-not-allowed'
-                    }`}
+                        }`}
                 >
                     Next
                 </button>
