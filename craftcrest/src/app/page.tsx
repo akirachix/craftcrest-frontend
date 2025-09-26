@@ -1,3 +1,4 @@
+
 "use client";
 import SellersManagement from "./sellerManagement/page";
 
@@ -8,3 +9,6 @@ export default function Page() {
    </div>
   );
 }
+
+
+
