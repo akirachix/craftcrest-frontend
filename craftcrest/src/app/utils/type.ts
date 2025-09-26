@@ -1,6 +1,5 @@
 
 import { LucideIcon } from 'lucide-react';
-
 export interface Payment {
   amount: string;
   transaction_code: string;
@@ -33,12 +32,12 @@ export interface Order {
   payment_status: string;
   created_at: string;
   updated_at: string;
-  
-}
+  artisan: number;
+  order?: number;
+};
 
 export interface Product {
   id: string;
-  artisan_id: number;
   product_name: string;
   description: string;
   category: "pottery" | "tailoring" | "basketry" | "weaving" | "crocheting" | "ceramics" | "jewelry";
@@ -47,14 +46,15 @@ export interface Product {
   image: string | null;
   is_customizable: boolean;
   custom_options?: string | null;
-  seller: string;
 }
+ 
 
 export interface Rating {
   rating: number | null;
   review_text?: string;
   order?: number | null;
   buyer?: number | null;
+  id: number;
 }
 export interface PerformanceStatsProps {
   data: {
@@ -102,22 +102,7 @@ export type Seller = {
   created_at?: string;
 };
 
-export type Order = {
-  id: number;
-  artisan: number;
-  status: string;
-  order?: number;
-};
 
-export type Rating = {
-  id: number;
-  rating: number;
-  order: number;
-};
 
-export type Payment = {
-  id: number;
-  amount: string;
-  artisan: number;
-};
+
 
