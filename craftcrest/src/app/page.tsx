@@ -1,8 +1,14 @@
 
-export default function Home() {
-    return (
-      <div>
-  
-      </div>
-    );
-  }
+"use client";
+import SellersManagement from "./sellerManagement/page";
+
+export default function Page() {
+  return (
+   <div>
+    <SellersManagement/>
+   </div>
+  );
+}
+
+
+
