@@ -4,21 +4,36 @@ import { render, screen } from '@testing-library/react';
 import { SellerVerificationChart } from '../dashboard/components/SellerVerificationChart';
 import { PerformanceStats } from './components/PerformanceStats';
 
-
 const mockData = {
   verified: 30,
   unverified: 20,
   verificationRate: 60
 };
 
+function ChartTestWrapper({ children }: { children: React.ReactNode }) {
+  return (
+    <div style={{ width: 400, height: 300 }}>
+      {children}
+    </div>
+  );
+}
+
 describe('SellerVerificationChart', () => {
   test('renders chart title', () => {
-    render(<SellerVerificationChart data={mockData} />);
+    render(
+      <ChartTestWrapper>
+        <SellerVerificationChart data={mockData} />
+      </ChartTestWrapper>
+    );
     expect(screen.getByText('Seller Verification')).toBeInTheDocument();
   });
 
   test('renders pie chart slices and total', () => {
-    render(<SellerVerificationChart data={mockData} />);
+    render(
+      <ChartTestWrapper>
+        <SellerVerificationChart data={mockData} />
+      </ChartTestWrapper>
+    );
     expect(screen.getByText((mockData.verified + mockData.unverified).toString())).toBeInTheDocument();
     expect(screen.getByText('Verified')).toBeInTheDocument();
     expect(screen.getByText(`30 (60%)`)).toBeInTheDocument();
@@ -29,8 +44,6 @@ describe('SellerVerificationChart', () => {
     expect(screen.getByText('60%')).toBeInTheDocument();
   });
 });
-
-
 
 jest.mock('lucide-react', () => ({
   LayoutGrid: () => <svg data-testid="layout-grid-icon" />,
@@ -78,5 +91,4 @@ describe('PerformanceStats component', () => {
     expect(checkCircleIcons.length).toBe(2);
     expect(screen.getByTestId('star-icon')).toBeInTheDocument();
   });
-
-})
+});

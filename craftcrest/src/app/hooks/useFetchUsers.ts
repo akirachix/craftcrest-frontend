@@ -9,16 +9,20 @@ const useFetchUsers = () => {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    let isMounted = true;
     (async () => {
       try {
         const data = await fetchUsers();
-        setUsers(data);
+        if (isMounted) setUsers(data);
       } catch (error) {
-        setError((error as Error).message);
+        if (isMounted) setError((error as Error).message);
       } finally {
-        setLoading(false);
+        if (isMounted) setLoading(false);
       }
     })();
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   return { users, loading, error };
