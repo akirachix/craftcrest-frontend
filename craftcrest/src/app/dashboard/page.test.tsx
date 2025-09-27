@@ -50,9 +50,9 @@ jest.mock('lucide-react', () => ({
 }));
 
 jest.mock('lucide-react', () => ({
-  AlertCircle: (props: any) => <svg data-testid="alert-circle-icon" {...props} />,
-  CheckCircle: (props: any) => <svg data-testid="check-circle-icon" {...props} />,
-  Star: (props: any) => <svg data-testid="star-icon" {...props} />,
+  AlertCircle: (props: Record<string, unknown>) => <svg data-testid="alert-circle-icon" {...props} />,
+  CheckCircle: (props: Record<string, unknown>) => <svg data-testid="check-circle-icon" {...props} />,
+  Star: (props: Record<string, unknown>) => <svg data-testid="star-icon" {...props} />,
 }));
 
 describe('PerformanceStats component', () => {
