@@ -3,9 +3,11 @@ import { useState, useEffect, useRef } from "react";
 import { CreditCard, ChevronDown, ChevronUp } from "lucide-react";
 import type { Payment } from "@/app/utils/type";
 import { useFetchPayments } from "@/app/hooks/useFetchPayments";
-import Sidebar from "@/app/shared-components/Sidebar";
-import PaymentModal from "../PaymentModal";
+
+import PaymentModal from "./components/PaymentModal";
 import Button from "@/app/shared-components/Button";
+
+import Layout from "../shared-components/Layout";
 
 const paymentStatus: { [key: string]: string } = {
   held: "bg-yellow-200  text-red-800 border-yellow-300",
@@ -27,7 +29,7 @@ const formatDate = (dateValue: string) => {
 export default function PaymentTable() {
   const [isStatusOpen, setIsStatusOpen] = useState(false);
   const statusDropdownRef = useRef<HTMLDivElement>(null);
-  const { paymentList, isLoadingPayments, paymentsError } = useFetchPayments();
+  const { payments, loading, error } = useFetchPayments();
   const [page, setPage] = useState(1);
   const [selectedPayment, setSelectedPayment] = useState<Payment | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -38,8 +40,8 @@ export default function PaymentTable() {
   const PAYMENT_ID_PREFIX = "PAY00";
   const CURRENCY_PREFIX = "Ksh ";
 
-  const filtered = Array.isArray(paymentList)
-    ? paymentList.filter((payment) => {
+  const filtered = Array.isArray(payments)
+    ? payments.filter((payment) => {
       const matchesId = payment.id.toString().includes(search);
       const matchesStatus = statusFilter
         ? payment.status === statusFilter
@@ -81,9 +83,9 @@ export default function PaymentTable() {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [isStatusOpen]);
-  if (isLoadingPayments) return <div className="p-8">Loading payments...</div>;
-  if (paymentsError)
-    return <div className="p-8 text-red-600">Error: {paymentsError.message}</div>;
+  if (loading) return <div className="p-8">Loading payments...</div>;
+  if (error)
+    return <div className="p-8 text-red-600">Error: {error}</div>;
   const displayStatus = (status: string) => {
     if (status === "held") return "Escrow";
     return status.charAt(0).toUpperCase() + status.slice(1);
@@ -95,8 +97,9 @@ export default function PaymentTable() {
     { value: "released", label: "Released" },
   ];
   return (
+    <Layout>
     <div className="bg-[#F5E8D8] h-screen flex">
-      <Sidebar />
+      
       <div className="w-full max-w-9xl p-8">
         <h1 className="text-3xl font-bold text-[#5D070D] mb-2">
           Payment Management
@@ -255,5 +258,6 @@ export default function PaymentTable() {
         )}
       </div>
     </div>
+    </Layout>
   );
 }

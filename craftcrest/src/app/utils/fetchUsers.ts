@@ -1,11 +1,10 @@
+const baseUrl = '/api/users';
 
-const baseUrl = "/api/users"
-
-export async function getUsers() {
+export async function fetchUsers() {
   try {
     const response = await fetch(baseUrl);
     if (!response.ok) {
-      throw new Error("Failed to fetch users: " + response.status);
+      throw new Error('Something went wrong, ' + response.status);
     }
     const result = await response.json();
     return result;

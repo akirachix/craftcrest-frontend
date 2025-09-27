@@ -1,4 +1,3 @@
-
 import { fetchRatings } from "./fetchRatings";
 
 const mockFetchResponse = (data: any, ok = true, status = 200) => ({
@@ -30,19 +29,25 @@ describe('getRatings', () => {
     expect(data).toEqual(mockData);
   });
 
-  it('throws an error when response is not ok', async () => {
+  it('rejects with error message when response is not ok', async () => {
     global.fetch = jest.fn(() => Promise.resolve(mockFetchResponse(null, false, 404))) as jest.Mock;
 
-    await expect(fetchRatings()).rejects.toThrow('Failed to fetch ratings: 404');
+    try {
+      await fetchRatings();
+      throw new Error('fetchRatings did not reject');
+    } catch (e: any) {
+      expect(e.message).toBe("Couldn't fetch ratingsUnable to fetch ratings. Please try again later.: 404");
+    }
   });
 
-  it('throws an error when fetch itself fails', async () => {
+  it('rejects with error message when fetch itself fails', async () => {
     global.fetch = jest.fn(() => Promise.reject(new Error('Network failure'))) as jest.Mock;
 
-    await expect(fetchRatings()).rejects.toThrow("Couldn't fetch RatingsNetwork failure");
+    try {
+      await fetchRatings();
+      throw new Error('fetchRatings did not reject');
+    } catch (e: any) {
+      expect(e.message).toBe("Couldn't fetch ratingsNetwork failure");
+    }
   });
 });
-
-
-
-

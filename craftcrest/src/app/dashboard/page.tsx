@@ -1,13 +1,15 @@
 'use client'
 import { TrendingUp, ShoppingCart, UserCheck } from 'lucide-react';
-import { useDashboardData } from "../../../hooks/useDashboardData"
-import { StatsCard } from '../StatsCard';
-import { SalesTrendsChart } from '../SalesTrendsChart';
-import { SellerVerificationChart } from '../SellerVerificationChart';
-import { ProductCategories } from '../ProductCategories';
-import { PerformanceStats } from '../PerformanceStats';
+import { useDashboardData } from "../hooks/useDashboardData"
+import { StatsCard } from './components/StatsCard';
+import { SalesTrendsChart } from './components/SalesTrendsChart';
+import { SellerVerificationChart } from './components/SellerVerificationChart';
+import { ProductCategories } from './components/ProductCategories';
+import { PerformanceStats } from './components/PerformanceStats';
+import Layout from '../shared-components/Layout';
+ 
 
-export const Dashboard = () => {
+const Dashboard = () => {
   const { data, loading, error } = useDashboardData();
 
   if (loading) {
@@ -37,8 +39,10 @@ export const Dashboard = () => {
   }
 
   return (
-    <div className="flex-1 p-8 bg-[#f0e5e6] max-w-[1280px] mx-auto px-4 sm:px-6 md:px-8">
-      <h1 className="text-3xl font-semibold text-gray-900 ml-20 mt-[-20]">Dashboard</h1>
+
+    <Layout>
+    <div className="flex-1 p-8 bg-[#f0e5e6] mx-auto px-4 sm:px-6 md:px-8">
+      <h1 className="text-3xl font-semibold text-gray-900 ml-20 ">Dashboard</h1>
       <div className="grid grid-cols-1 w-full md:grid-cols-3 gap-2 mb-3">
         <StatsCard
           title="Total Sales"
@@ -68,5 +72,8 @@ export const Dashboard = () => {
         <PerformanceStats data={data.performanceStats} />
       </div>
     </div>
+    </Layout>
   );
 };
+
+export default Dashboard;

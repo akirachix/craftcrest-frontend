@@ -2,17 +2,8 @@ import type { NextConfig } from "next";
 
 const nextConfig = {
   images: {
-    remotePatterns: [
-      {
-        protocol: 'http',
-        hostname: '127.0.0.1',
-        port: '8000',
-        pathname: '/media/**',
-      },
-    ],
+    domains: ['craft-crest-1191648a42bc.herokuapp.com'],
   },
 };
 
-
-
-export default nextConfig;
+module.exports = nextConfig;

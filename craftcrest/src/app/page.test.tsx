@@ -1,7 +1,7 @@
 
 import '@testing-library/jest-dom';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import ProductManagement from './products';
+import ProductManagement from './products/page';
 import { Product } from './utils/type';
 import useFetchProducts from './hooks/useFetchProducts';
 

@@ -5,6 +5,7 @@ import { Package, Search, X } from "lucide-react";
 import { Product } from "../utils/type";
 import useGetProducts from "../hooks/useFetchProducts";
 import Image from "next/image";
+import Layout from "../shared-components/Layout";
 
 const categories = [
     { value: "all", label: "All Categories" },
@@ -50,6 +51,7 @@ export default function ProductManagement() {
     if (error) return <div className="p-8 text-red-600">Error: {error}</div>;
 
     return (
+        <Layout>
         <div className="min-h-screen bg-[#F5E8D8] relative">
             <div className="p-12 pb-[100px]">
                 <h1 className="text-3xl font-bold text-[#5D070D] mb-2">Product Management</h1>
@@ -199,5 +201,6 @@ export default function ProductManagement() {
                 </button>
             </div>
         </div>
+        </Layout>
     );
 }

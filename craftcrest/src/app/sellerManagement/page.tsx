@@ -1,13 +1,15 @@
 "use client";
 import { useState } from "react";
 import { FiSearch } from "react-icons/fi";
+
 import Metrics from "./components/Metrics";
 import SellerTable from "./components/SellerTable";
+import Layout from "../shared-components/Layout";
 
 export default function SellersManagement() {
   const [search, setSearch] = useState("");
 
-  return (
+  return ( <Layout>
     <div className="flex min-h-screen bg-[#F4E5D6] font-sans">
       <main
         className="flex-1 px-4 py-4 md:px-6 md:py-6 lg:px-8 lg:py-8 xl:px-10 xl:py-8">
@@ -26,7 +28,9 @@ export default function SellersManagement() {
               xl:w-72                 /* ≥1280px */
             "
           >
-            <FiSearch className="text-[#5D070D] mr-2 text-lg" />
+            <span className="text-[#5D070D] mr-2 text-lg">
+              <FiSearch />
+            </span>
             <input
               type="text"
               placeholder="Search by name..."
@@ -39,5 +43,6 @@ export default function SellersManagement() {
         <SellerTable search={search} />
       </main>
     </div>
+    </Layout>
   );
 }

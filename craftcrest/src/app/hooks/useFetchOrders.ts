@@ -2,7 +2,6 @@
 import { useState, useEffect } from "react";
 import { fetchOrders as fetchOrdersAPI } from "../utils/fetchOrders";
 import type { Order } from "../utils/type";
-
 const useFetchOrders = () => {
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(false);
