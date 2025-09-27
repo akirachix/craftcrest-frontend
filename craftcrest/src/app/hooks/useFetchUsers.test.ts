@@ -34,7 +34,6 @@ describe('useFetchOrders hook', () => {
   });
 
   it('should handle error state', async () => {
-    const errorMessage = "Couldn't fetch ordersNetwork failure";
     mockedFetchOrders.mockRejectedValue(new Error('Network failure'));
 
     const { result } = renderHook(() => useFetchOrders());

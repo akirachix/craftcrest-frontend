@@ -1,6 +1,6 @@
 import { fetchOrders } from '../utils/fetchOrders';
 
-const mockFetchResponse = (data: any, ok = true, status = 200) => ({
+const mockFetchResponse = (data: unknown, ok = true, status = 200) => ({
   ok,
   status,
   json: async () => data,

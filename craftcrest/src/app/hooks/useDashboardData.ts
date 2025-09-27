@@ -5,7 +5,7 @@ import useFetchOrders from './useFetchOrders';
 import useFetchUsers from './useFetchUsers';
 import useFetchInventory from './useFetchInventory';
 import useFetchRatings from './useFetchRatings';
-import type { Payment, Order, User, Product, Rating } from '../utils/type';
+import type { Payment  } from '../utils/type';
 
 export interface DashboardStats {
   totalSales: number;

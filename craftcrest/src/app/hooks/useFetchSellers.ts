@@ -5,7 +5,8 @@ import type { Seller } from "../utils/type";
 export const useSellers = () => {
   const [sellers, setSellers] = useState<Seller[]>([]);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<any>(null);
+  const [error, setError] = useState<Error | null>(null);
+
   useEffect(() => {
     setLoading(true);
     fetchSellers()
@@ -13,6 +14,6 @@ export const useSellers = () => {
       .catch((error) => setError(error as Error))
       .finally(() => setLoading(false));
   }, []);
+
   return { sellers, loading, error };
 };
-

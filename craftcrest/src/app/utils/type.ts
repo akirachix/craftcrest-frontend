@@ -1,3 +1,9 @@
+import { LucideIcon } from 'lucide-react';
+
+export interface CartItem {
+  [key: string]: unknown;
+}
+
 export interface EnhancedOrder {
   id: number;
   buyerName: string;
@@ -12,31 +18,26 @@ export interface EnhancedOrder {
   rejection_date: string | null;
   payment_status: string;
   updated_at: string;
-  cart: any | null;
+  cart: CartItem[] | null;
   buyer: number;
   artisan: number;
 }
 
+export interface Payment {
+  id: number;
+  artisan: string;
+  amount: string;
+  order: string;
+  status: "Held" | "Refunded" | "Released";
+  date: string;
+  transaction_code: string;
+  paid_at: string;
+  releasedDate?: string;
+}
 
-import { LucideIcon } from 'lucide-react';
-  export interface Payment {
-    id: number;
-    artisan: string;
-    amount: string;
-    order: string;
-    status: "Held" | "Refunded" | "Released";
-    date: string;
-    transaction_code: string;
-    paid_at: string;
-    releasedDate?: string;
-  }
-
-
-  export interface PaymentTableProps {
-    payment: Payment[];
-  }
-
- 
+export interface PaymentTableProps {
+  payment: Payment[];
+}
 
 export interface User {
   id: number;
@@ -64,12 +65,12 @@ export interface Order {
   payment_status: string;
   created_at: string;
   updated_at: string;
-  cart: any | null;
+  cart: CartItem[] | null;
   buyer: number;
   artisan: number;
 }
 
-export interface User {
+export interface UserOrderInfo {
   rejection_reason?: string;
   delivery_confirmed: boolean;
   rejection_date?: string;
@@ -78,7 +79,7 @@ export interface User {
   updated_at: string;
   artisan: number;
   order?: number;
-};
+}
 
 export interface Product {
   id: string;
@@ -91,7 +92,6 @@ export interface Product {
   is_customizable: boolean;
   custom_options?: string | null;
 }
- 
 
 export interface Rating {
   rating: number | null;
@@ -100,6 +100,7 @@ export interface Rating {
   buyer?: number | null;
   id: number;
 }
+
 export interface PerformanceStatsProps {
   data: {
     rejectionRate: number;
@@ -116,14 +117,14 @@ export interface ProductCategoriesProps {
   }>;
 }
 
- export interface SalesTrendsChartProps {
+export interface SalesTrendsChartProps {
   data: Array<{
     month: string;
     value: number;
   }>;
 }
 
- export interface SellerVerificationChartProps {
+export interface SellerVerificationChartProps {
   data: {
     verified: number;
     unverified: number;
@@ -151,10 +152,4 @@ export type Seller = {
   otp_exp: string | null;
   latitude: string | null;
   longitude: string | null;
-}
-
-
-
-
-
-
+};

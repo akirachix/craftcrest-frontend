@@ -1,8 +1,3 @@
-enum ButtonVariants {
-    primary = "primary",
-    secondary = "secondary",
-}
-
 interface ButtonProps {
     buttonText: string, 
     variant: string, 

@@ -1,6 +1,6 @@
 import { PieChart, Pie, Cell, ResponsiveContainer } from 'recharts';
-import { Settings } from 'lucide-react';
 import { SellerVerificationChartProps } from '../../../utils/type'
+import Image from "next/image";
 
 export const SellerVerificationChart = ({ data }: SellerVerificationChartProps) => {
   const chartData = [
@@ -60,9 +60,13 @@ export const SellerVerificationChart = ({ data }: SellerVerificationChartProps) 
           </div>
 
           <div className="flex items-center gap-2 border-t border-gray-100 pt-3">
-            <img src="/images/Verified Badge.svg"
+            <Image
+              src="/images/Verified Badge.svg"
               alt="verification Badge"
-              className="h-10 object-contain "/>
+              width={40} 
+              height={40} 
+              className="h-10 object-contain"
+            />
             <span className="text-sm text-gray-600">Verification rate:</span>
             <span className="text-sm font-semibold text-[#8B1538] ml-auto">{data.verificationRate}%</span>
           </div>

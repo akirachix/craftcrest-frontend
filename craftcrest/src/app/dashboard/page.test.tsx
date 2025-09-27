@@ -2,9 +2,6 @@ import React from 'react';
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 import { SellerVerificationChart } from '../dashboard/components/SellerVerificationChart';
-import { SalesTrendsChart } from './components/SalesTrendsChart'; 
-import { ProductCategories } from './components/ProductCategories';
-import { LayoutGrid } from 'lucide-react';
 import { PerformanceStats } from './components/PerformanceStats';
 
 
