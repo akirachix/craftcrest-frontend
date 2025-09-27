@@ -11,12 +11,6 @@ export const useFetchPayments = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-
-
-
-
-
- 
   const loadPayments = async () => {
     setLoading(true);
     setError(null);
