@@ -4,7 +4,6 @@ import SellerTable from "./components/SellerTable";
 import StarRating from "./components/StarRating";
 import '@testing-library/jest-dom';
 
-// Mock data matching your use case
 const mockSellers = [
   { id: 1, first_name: "Jane", last_name: "Doe" },
   { id: 2, first_name: "John", last_name: "Smith" },
