@@ -1,11 +1,11 @@
  import React from "react";
 import { useSellers } from "@/app/hooks/useFetchSellers";
-import { usePayments } from "@/app/hooks/useFetchPayments";
+import { useFetchPayments } from "@/app/hooks/useFetchPayments";
 import type { Payment } from "@/app/utils/type";
 
 export default function Metrics() {
   const { sellers } = useSellers();
-  const { payments } = usePayments();
+  const { payments } = useFetchPayments();
   const total = sellers.length;
   const active = sellers.length; 
   const verified = sellers.length; 

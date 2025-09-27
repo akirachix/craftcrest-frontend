@@ -1,18 +1,36 @@
+
+'use client';
 import { useState, useEffect } from "react";
-import { fetchRatings } from "../utils/fetchRatings";
+import { fetchRatings as apiGetRatings } from "../utils/fetchRatings";
 import type { Rating } from "../utils/type";
 
-export const useRatings = () => {
-  const [ratings, setRatings] = useState<Rating[]>([]);
+const useFetchRatings = () => {
+  const [ratings, setRatings] = useState<Array<Rating>>([]);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<any>(null);
-  useEffect(() => {
+  const [error, setError] = useState<string | null>(null);
+
+  const fetchRatings = async () => {
     setLoading(true);
-    fetchRatings()
-      .then((data) => setRatings(data))
-      .catch((error) => setError(error as Error))
-      .finally(() => setLoading(false));
+    setError(null);
+    try {
+      const data = await apiGetRatings();
+      setRatings(data);
+    } catch (error) {
+      setError((error as Error).message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchRatings();
   }, []);
+
   return { ratings, loading, error };
 };
+
+export default useFetchRatings;
+
+
+
 

@@ -1,17 +1,21 @@
+const baseUrl = process.env.BASE_URL;
+
 export async function GET() {
-    const baseUrl = process.env.BASE_URL;
-    if (!baseUrl) {
-        return new Response('The system is not properly configured. Please try again.', { status: 500 });
-    }
-    try {
+    try{
         const response = await fetch(`${baseUrl}/payments/`)
-        const data = await response.json();
-        return new Response(JSON.stringify(data), {
-            status: 200
+        const result = await response.json()
+
+        return new Response (JSON.stringify(result), {
+            status:200,
+            statusText: 'Successfully fetched payments'
         });
+
     } catch (error) {
         return new Response((error as Error).message, {
             status: 500,
         });
     }
 }
+
+
+

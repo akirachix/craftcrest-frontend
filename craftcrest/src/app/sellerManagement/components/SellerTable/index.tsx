@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useSellers } from "@/app/hooks/useFetchSellers";
-import { useOrders } from "@/app/hooks/useFetchOrders";
-import { useRatings } from "@/app/hooks/useFetchRatings";
+import useFetchOrders from "@/app/hooks/useFetchOrders"
+import useFetchRatings from "@/app/hooks/useFetchRatings"
 import StarRating from "../StarRating";
 
-export default function SellerTable({ search }:{search:string}) {
+export default function SellerTable({ search }: { search: string }) {
   const { sellers } = useSellers();
-  const { orders } = useOrders();
-  const { ratings } = useRatings();
+  const { orders } = useFetchOrders();
+  const { ratings } = useFetchRatings();
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
 
@@ -56,10 +56,13 @@ export default function SellerTable({ search }:{search:string}) {
                 .filter(r =>
                   orders.find(o => o.id === r.order && o.artisan === seller.id)
                 )
-                .map(r => r.rating);
+                .map(r => r.rating)
+                .filter((rating): rating is number => rating !== null && rating !== undefined);
+
               const avgRating = sellerRatings.length
                 ? ((sellerRatings.reduce((a, b) => a + b, 0) / sellerRatings.length + 0.5) | 0)
                 : 0;
+
               return (
                 <tr key={i}>
                   <td className="py-2 px-4 text-black">

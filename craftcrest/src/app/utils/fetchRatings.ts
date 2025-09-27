@@ -1,4 +1,6 @@
-const baseUrl = "/api/ratings"
+
+const baseUrl ="api/ratings"
+
 
 export async function fetchRatings() {
   try {

@@ -1,10 +1,15 @@
 "use client";
-import SellersManagement from "./sellerManagement/page";
 
-export default function Page() {
+import LoginPage from "./login/page";
+
+export default function App() {
   return (
-   <div>
-    <SellersManagement/>
-   </div>
+    <div className="min-h-screen flex bg-gray-50">
+      <LoginPage/>
+     
+      
+    </div>
   );
 }
+
+

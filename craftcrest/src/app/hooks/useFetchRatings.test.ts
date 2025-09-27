@@ -1,38 +1,58 @@
-import { renderHook } from '@testing-library/react';
-import { waitFor } from '@testing-library/react';
-import { useRatings } from './useFetchRatings';
+import { renderHook, waitFor } from '@testing-library/react';
+import useFetchRatings from './useFetchRatings';
 
 jest.mock('../utils/fetchRatings');
-import { fetchRatings as mockFetchRatings } from '../utils/fetchRatings';
+import { fetchRatings } from '../utils/fetchRatings';
 
-describe('useRatings hook', () => {
+const mockGetRatings = fetchRatings as jest.MockedFunction<typeof fetchRatings>;
+
+describe('useFetchRatings hook', () => {
   afterEach(() => {
     jest.clearAllMocks();
   });
 
-  it('should handle empty state', async () => {
-    (mockFetchRatings as jest.Mock).mockResolvedValue([]);
-    const { result } = renderHook(() => useRatings());
-    await waitFor(() => expect(result.current.loading).toBe(false));
+  it('should start loading state correctly', () => {
+    mockGetRatings.mockReturnValue(new Promise(() => {})); 
+    const { result } = renderHook(() => useFetchRatings());
+
+    expect(result.current.loading).toBe(true);
     expect(result.current.ratings).toEqual([]);
     expect(result.current.error).toBeNull();
   });
 
-  it('should handle success state', async () => {
-    const mockData = [{ id: 1, score: 5, comment: "Great!" }];
-    (mockFetchRatings as jest.Mock).mockResolvedValue(mockData);
-    const { result } = renderHook(() => useRatings());
+  it('should handle success error', async () => {
+    const ratings = [
+      { id: 1, score: 5, comment: 'Excellent' },
+      { id: 2, score: 3, comment: 'Average' },
+    ];
+    mockGetRatings.mockResolvedValue(ratings);
+    const { result } = renderHook(() => useFetchRatings());
+
+    expect(result.current.loading).toBe(true); 
+
     await waitFor(() => expect(result.current.loading).toBe(false));
-    expect(result.current.ratings).toEqual(mockData);
+
+    expect(result.current.ratings).toEqual(ratings);
+    expect(result.current.error).toBeNull();
+  });
+
+  it('should handle empty ratings', async () => {
+    mockGetRatings.mockResolvedValue([]);
+    const { result } = renderHook(() => useFetchRatings());
+    await waitFor(() => expect(result.current.loading).toBe(false));
+    expect(result.current.ratings).toEqual([]);
     expect(result.current.error).toBeNull();
   });
 
   it('should handle error state', async () => {
-    const mockError = new Error('fetch error');
-    (mockFetchRatings as jest.Mock).mockRejectedValue(mockError);
-    const { result } = renderHook(() => useRatings());
+    const mockError = new Error('Failed to fetch');
+    mockGetRatings.mockRejectedValue(mockError);
+    const { result } = renderHook(() => useFetchRatings());
+
+    expect(result.current.loading).toBe(true); 
     await waitFor(() => expect(result.current.loading).toBe(false));
+
     expect(result.current.ratings).toEqual([]);
-    expect(result.current.error).toBe(mockError);
+    expect(result.current.error).toBe('Failed to fetch');
   });
 });
