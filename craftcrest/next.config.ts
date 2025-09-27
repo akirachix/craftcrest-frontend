@@ -1,9 +1,9 @@
 import type { NextConfig } from "next";
 
-const nextConfig: NextConfig = {
- 
+const nextConfig = {
+  images: {
+    domains: ['craft-crest-1191648a42bc.herokuapp.com'],
+  },
 };
 
-
-
-export default nextConfig;
+module.exports = nextConfig;

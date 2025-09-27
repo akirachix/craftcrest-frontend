@@ -9,6 +9,8 @@ import OrderTable from './components/OrderTable';
 import OrderModal from './components/OrderModal';
 import { EnhancedOrder } from '../utils/type';
 
+import Layout from '../shared-components/Layout';
+
 interface MaroonDropdownProps {
   options: string[];
   value: string;
@@ -148,6 +150,7 @@ const OrdersPage = () => {
   };
 
   return (
+    <Layout>
     <div className="min-h-screen" style={{ backgroundColor: '#F5E8D8' }}>
       <div className="px-15 py-10" style={{ color: '#5D070D' }}>
         <h1 className="text-[35px] font-bold mb-4">Order Management</h1>
@@ -213,6 +216,7 @@ const OrdersPage = () => {
         {selectedOrder && <OrderModal order={selectedOrder} onClose={handleClose} />}
       </div>
     </div>
+    </Layout>
   );
 };
 

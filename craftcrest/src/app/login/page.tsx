@@ -7,6 +7,7 @@ import Image from 'next/image';
 import Button from '../sharedComponents/Button';
 import useLogin from '../hooks/useFetchLogin';
 
+
 export default function LoginPage() {
   const router = useRouter();
   const { login, loading, error } = useLogin();
@@ -36,7 +37,7 @@ export default function LoginPage() {
     if (result?.token) {
       setSuccessMessage('Login successful! Redirecting...');
       setTimeout(() => {
-        router.push('/orders');
+        router.push('/dashboard');
       }, 1000);
     } else {
       setSuccessMessage(null);
@@ -44,6 +45,7 @@ export default function LoginPage() {
   };
 
   return (
+    
     <div className="flex h-screen w-screen bg-white">
       <div className="w-1/2 relative overflow-hidden">
         <Image
@@ -133,5 +135,6 @@ export default function LoginPage() {
         </div>
       </div>
     </div>
+   
   );
 }

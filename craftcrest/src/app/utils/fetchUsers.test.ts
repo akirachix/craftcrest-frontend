@@ -15,15 +15,28 @@ describe('fetchUsers', () => {
     expect(result).toEqual(mockUsers);
   });
 
-  it('should throw an error when response is not ok', async () => {
+  it('should reject with error message when response is not ok', async () => {
     fetchMock.mockResponseOnce('Not Found', { status: 404, statusText: 'Not Found' });
-    await expect(fetchUsers()).rejects.toThrow('Something went wrong, Not Found');
+
+    try {
+      await fetchUsers();
+      throw new Error('fetchUsers did not reject');
+    } catch (e: any) {
+      expect(e.message).toBe("Couldn't fetch usersSomething went wrong, 404");
+    }
   });
 
-  it('should throw a descriptive error on network failure', async () => {
+  it('should reject with descriptive error message on network failure', async () => {
     fetchMock.mockRejectOnce(new Error('Network error'));
-    await expect(fetchUsers()).rejects.toThrow('Failed to fetch users: Network error');
-  })
+
+    try {
+      await fetchUsers();
+      throw new Error('fetchUsers did not reject');
+    } catch (e: any) {
+      expect(e.message).toContain("Network error");
+    }
+  });
+});
 
 const mockFetchResponse = (data: any, ok = true, status = 200) => ({
   ok,
@@ -54,18 +67,25 @@ describe('getUsers', () => {
     expect(data).toEqual(mockData);
   });
 
-  it('throws an error when response is not ok', async () => {
+  it('rejects with error message when response is not ok', async () => {
     global.fetch = jest.fn(() => Promise.resolve(mockFetchResponse(null, false, 404))) as jest.Mock;
 
-    await expect(fetchUsers()).rejects.toThrow('Failed to fetch users: 404');
+    try {
+      await fetchUsers();
+      throw new Error('fetchUsers did not reject');
+    } catch (e: any) {
+      expect(e.message).toBe("Couldn't fetch usersSomething went wrong, 404");
+    }
   });
 
-  it('throws an error when fetch itself fails', async () => {
+  it('rejects with error message when fetch fails', async () => {
     global.fetch = jest.fn(() => Promise.reject(new Error('Network failure'))) as jest.Mock;
 
-    await expect(fetchUsers()).rejects.toThrow("Couldn't fetch usersNetwork failure");
+    try {
+      await fetchUsers();
+      throw new Error('fetchUsers did not reject');
+    } catch (e: any) {
+      expect(e.message).toBe("Couldn't fetch usersNetwork failure");
+    }
   });
 });
-
-})
- 

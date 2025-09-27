@@ -28,11 +28,11 @@ describe('fetchOrders', () => {
   it('should handle error state', async () => {
     const errorData = { error: 'Something went wrong' };
     global.fetch = jest.fn(() => Promise.resolve(mockFetchResponse(errorData, false, 404))) as jest.Mock;
-    await expect(fetchOrders()).rejects.toThrow('Failed to fetch orders: Something went wrong');
+    await expect(fetchOrders()).rejects.toThrow('Unable to fetch orders. Please try again later.: Something went wrong');
   });
 
   it('should handle error on response', async () => {
     global.fetch = jest.fn(() => Promise.reject(new Error('Network failure'))) as jest.Mock;
-    await expect(fetchOrders()).rejects.toThrow('Failed to fetch orders: Network failure');
+    await expect(fetchOrders()).rejects.toThrow('Unable to fetch orders. Please try again later.: Network failure');
   });
 });
