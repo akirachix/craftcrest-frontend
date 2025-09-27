@@ -1,6 +1,7 @@
-import Image from "next/image";
-import ProductManagement from "./products";
 "use client";
+import Link from "next/link";
+import PaymentTable from "./payment/components/PaymentsTable";
+import ProductManagement from "./products";
 import SellersManagement from "./sellerManagement/page";
 import { Dashboard } from './dashboard/components/Dashboard';
 
@@ -10,6 +11,7 @@ export default function App() {
        <ProductManagement />
       <SellersManagement/>
       <Dashboard />
+      <PaymentTable/>
     </div>
   );
 }
