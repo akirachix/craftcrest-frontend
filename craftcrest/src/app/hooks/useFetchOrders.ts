@@ -6,6 +6,8 @@ const useFetchOrders = () => {
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+ 
   const loadOrders = async () => {
     setLoading(true);
     setError(null);
@@ -18,9 +20,12 @@ const useFetchOrders = () => {
       setLoading(false);
     }
   };
+
   useEffect(() => {
     loadOrders();
   }, []);
+
   return { orders, loading, error };
 };
+
 export default useFetchOrders;
