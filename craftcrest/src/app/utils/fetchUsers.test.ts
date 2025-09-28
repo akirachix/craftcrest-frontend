@@ -21,8 +21,12 @@ describe('fetchUsers', () => {
     try {
       await fetchUsers();
       throw new Error('fetchUsers did not reject');
-    } catch (e: any) {
-      expect(e.message).toBe("Couldn't fetch usersSomething went wrong, 404");
+    } catch (e) {
+      if (e instanceof Error) {
+        expect(e.message).toBe("Couldn't fetch usersSomething went wrong, 404");
+      } else {
+        throw e;
+      }
     }
   });
 
@@ -32,13 +36,17 @@ describe('fetchUsers', () => {
     try {
       await fetchUsers();
       throw new Error('fetchUsers did not reject');
-    } catch (e: any) {
-      expect(e.message).toContain("Network error");
+    } catch (e) {
+      if (e instanceof Error) {
+        expect(e.message).toContain("Network error");
+      } else {
+        throw e;
+      }
     }
   });
 });
 
-const mockFetchResponse = (data: any, ok = true, status = 200) => ({
+const mockFetchResponse = (data: unknown, ok = true, status = 200) => ({
   ok,
   status,
   json: async () => data,
@@ -73,8 +81,12 @@ describe('getUsers', () => {
     try {
       await fetchUsers();
       throw new Error('fetchUsers did not reject');
-    } catch (e: any) {
-      expect(e.message).toBe("Couldn't fetch usersSomething went wrong, 404");
+    } catch (e) {
+      if (e instanceof Error) {
+        expect(e.message).toBe("Couldn't fetch usersSomething went wrong, 404");
+      } else {
+        throw e;
+      }
     }
   });
 
@@ -84,8 +96,12 @@ describe('getUsers', () => {
     try {
       await fetchUsers();
       throw new Error('fetchUsers did not reject');
-    } catch (e: any) {
-      expect(e.message).toBe("Couldn't fetch usersNetwork failure");
+    } catch (e) {
+      if (e instanceof Error) {
+        expect(e.message).toBe("Couldn't fetch usersNetwork failure");
+      } else {
+        throw e;
+      }
     }
   });
 });

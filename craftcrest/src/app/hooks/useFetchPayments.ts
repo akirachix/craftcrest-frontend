@@ -4,9 +4,9 @@ import { fetchPayments } from "../utils/fetchPayments";
 import type { Payment } from "../utils/type";
 
 export const useFetchPayments = () => {
-  const [paymentList, setPaymentList] = useState<Payment[]>([]);
-  const [isLoadingPayments, setIsLoadingPayments] = useState(false);
-  const [paymentsError, setPaymentsError] = useState<Error | null>(null);
+  const [] = useState<Payment[]>([]);
+  const [] = useState(false);
+  const [] = useState<Error | null>(null);
   const [payments, setPayments] = useState<Array<Payment>>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);

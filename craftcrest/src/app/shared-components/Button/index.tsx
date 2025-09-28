@@ -29,7 +29,7 @@ const Button = ({ buttonText, variant, onClickHandler }: ButtonProps) => {
 
   return (
     <button 
-      className={`${variantClass} px-[16px] py-[8px] rounded-md cursor-pointer`}
+      className={`${variantClass} px-[10px] py-[8px] rounded-md cursor-pointer`}
       onClick={onClickHandler}
     >
       {buttonText}

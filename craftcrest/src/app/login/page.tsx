@@ -1,39 +1,29 @@
 'use client';
-
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { FiEye, FiEyeOff } from 'react-icons/fi';
 import Image from 'next/image';
-
 import Button, { ButtonVariants } from "../shared-components/Button";
 import useLogin from '../hooks/useFetchLogin';
-
 export default function LoginPage() {
   const router = useRouter();
   const { login, loading, error } = useLogin();
-
   const [formData, setFormData] = useState({ email: '', password: '' });
   const [showPassword, setShowPassword] = useState(false);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
-
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
     setSuccessMessage(null);
   };
-
   const handleSubmit = async (e?: React.FormEvent) => {
     if (e) e.preventDefault();
-
     const { email, password } = formData;
-
     if (!email.trim() || !password) {
       setSuccessMessage(null);
       return;
     }
-
     const result = await login({ email, password });
-
     if (result?.token) {
       setSuccessMessage('Login successful! Redirecting...');
       setTimeout(() => {
@@ -43,13 +33,11 @@ export default function LoginPage() {
       setSuccessMessage(null);
     }
   };
-
   const handleButtonClick = () => {
     if (!loading) {
       handleSubmit();
     }
   };
-
   return (
     <div className="flex h-screen w-screen bg-white">
       <div className="w-1/2 relative overflow-hidden">
@@ -70,11 +58,9 @@ export default function LoginPage() {
           className="w-100 relative m-50"
         />
       </div>
-
       <div className="w-1/2 flex items-center justify-center bg-[#FFF9F5]">
         <div className="max-w-md w-full bg-white rounded-lg p-12 space-y-6 shadow-[0_4px_15px_rgba(93,7,13,0.6)] box-border">
           <h2 className="text-3xl font-bold text-[#5D070D] text-center mb-6">Sign In</h2>
-
           <form className="space-y-6" onSubmit={handleSubmit}>
             <div>
               <label htmlFor="email" className="block text-gray-700 font-medium mb-2">
@@ -91,7 +77,6 @@ export default function LoginPage() {
                 required
               />
             </div>
-
             <div className="relative">
               <label htmlFor="password" className="block text-gray-700 font-medium mb-2">
                 Password
@@ -115,18 +100,18 @@ export default function LoginPage() {
                 {showPassword ? <FiEye size={20} /> : <FiEyeOff size={20} />}
               </button>
             </div>
-
             {error && <p className="text-red-500 text-sm text-center">{error}</p>}
             {successMessage && <p className="text-green-600 text-sm text-center">{successMessage}</p>}
-
             <div className="mt-6">
-              <Button
+              <button
                 type="submit"
-                variant={ButtonVariants.primary}
-                buttonText={loading ? 'Signing in...' : 'Sign In'}
-                onClickHandler={handleButtonClick}
-                className=" px-3 py-3 text-base"
-              />
+                onClick={handleButtonClick}
+                disabled={loading}
+                className={`w-full px-3 py-3 text-base font-semibold rounded-lg focus:outline-none focus:ring-2 focus:ring-[#5D070D] transition ${loading ? 'bg-gray-400 cursor-not-allowed' : 'bg-[#5D070D] text-white hover:bg-[#7A0B14]'
+                  }`}
+              >
+                {loading ? 'Signing in...' : 'Sign In'}
+              </button>
             </div>
           </form>
         </div>

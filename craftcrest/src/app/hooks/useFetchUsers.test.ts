@@ -1,49 +1,48 @@
 import { renderHook } from '@testing-library/react';
 import { waitFor } from '@testing-library/react';
-import useFetchOrders from '../hooks/useFetchOrders';
-import * as fetchOrdersModule from '../utils/fetchOrders';
+import useFetchUsers from './useFetchUsers';
+import * as fetchUsersModule from '../utils/fetchUsers';
 
-jest.mock('../utils/fetchOrders');
+jest.mock('../utils/fetchUsers');
 
-const mockedFetchOrders = fetchOrdersModule.fetchOrders as jest.MockedFunction<typeof fetchOrdersModule.fetchOrders>;
+const mockedFetchUsers = fetchUsersModule.fetchUsers as jest.MockedFunction<typeof fetchUsersModule.fetchUsers>;
 
-describe('useFetchOrders hook', () => {
+describe('useFetchUsers hook', () => {
   afterEach(() => {
     jest.resetAllMocks();
   });
 
   it('should have loading true initially', () => {
-    const { result } = renderHook(() => useFetchOrders());
+    const { result } = renderHook(() => useFetchUsers());
     expect(result.current.loading).toBe(true);
-    expect(result.current.orders).toEqual([]);
+    expect(result.current.users).toEqual([]);
     expect(result.current.error).toBeNull();
   });
 
   it('should handle success state', async () => {
-    const mockOrders = [{ id: 1, item: 'Item1' }, { id: 2, item: 'Item2' }];
-    mockedFetchOrders.mockResolvedValue(mockOrders);
+    const mockUsers = [{ id: 1, name: 'Alice' }, { id: 2, name: 'Bob' }];
+    mockedFetchUsers.mockResolvedValue(mockUsers);
 
-    const { result } = renderHook(() => useFetchOrders());
+    const { result } = renderHook(() => useFetchUsers());
 
     await waitFor(() => {
       expect(result.current.loading).toBe(false);
     });
 
-    expect(result.current.orders).toEqual(mockOrders);
+    expect(result.current.users).toEqual(mockUsers);
     expect(result.current.error).toBeNull();
   });
 
   it('should handle error state', async () => {
-    const errorMessage = "Couldn't fetch ordersNetwork failure";
-    mockedFetchOrders.mockRejectedValue(new Error('Network failure'));
+    mockedFetchUsers.mockRejectedValue(new Error('Network failure'));
 
-    const { result } = renderHook(() => useFetchOrders());
+    const { result } = renderHook(() => useFetchUsers());
 
     await waitFor(() => {
       expect(result.current.loading).toBe(false);
     });
 
-    expect(result.current.orders).toEqual([]);
+    expect(result.current.users).toEqual([]);
     expect(result.current.error).toContain('Network failure');
   });
 });

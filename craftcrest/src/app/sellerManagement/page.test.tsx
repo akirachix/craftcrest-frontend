@@ -1,26 +1,8 @@
 import React from "react";
-import { render, screen, within } from "@testing-library/react";
-import SellerTable from "./components/SellerTable";
+import { render, screen } from "@testing-library/react";
 import StarRating from "./components/StarRating";
 import '@testing-library/jest-dom';
 
-const mockSellers = [
-  { id: 1, first_name: "Jane", last_name: "Doe" },
-  { id: 2, first_name: "John", last_name: "Smith" },
-  { id: 3, first_name: "Charity", last_name: "Dawin" },
-  { id: 4, first_name: "Nathaniel", last_name: "Sherr" },
-];
-
-const mockOrders = [
-  { id: 1, artisan: 1, status: "completed" },
-  { id: 2, artisan: 1, status: "rejected" },
-  { id: 3, artisan: 3, status: "completed" },
-];
-
-const mockRatings = [
-  { order: 1, rating: 4 },
-  { order: 3, rating: 3 },
-];
 
 describe("StarRating", () => {
   it("renders 5 star icons total", () => {

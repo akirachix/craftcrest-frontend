@@ -1,6 +1,6 @@
 import { fetchLogin } from '../utils/fetchLogin';
 
-const mockFetchResponse = (data: any, ok = true, status = 200) => ({
+const mockFetchResponse = (data: unknown, ok = true, status = 200) => ({
   ok,
   status,
   json: async () => data,
@@ -20,7 +20,6 @@ describe('fetchLogin', () => {
   });
 
   it('should handle error state', async () => {
-    // Mock json to return an object with error property, not null
     const errorData = { error: 'Failed to fetch login credentials: 404' };
     global.fetch = jest.fn(() => Promise.resolve(mockFetchResponse(errorData, false, 404))) as jest.Mock;
     await expect(fetchLogin({ email: '', password: '' })).rejects.toThrow(
