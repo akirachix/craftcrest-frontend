@@ -35,7 +35,7 @@ export default function Sidebar() {
   ];
 
   return (
-    <aside className="flex h-screen w-64 flex-col bg-[#5D070D] p-6 text-white shadow-lg ">
+    <aside className="flex h-screen w-64 flex-col  bg-[#5D070D] p-6 text-white shadow-lg  ">
       <div className="mb-10 mt-4 flex-col items-center gap-2">
         <Image
           src="/images/logo.png"

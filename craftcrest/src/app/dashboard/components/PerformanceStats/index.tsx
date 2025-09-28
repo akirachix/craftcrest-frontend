@@ -38,14 +38,14 @@ export const PerformanceStats = ({ data }: PerformanceStatsProps) => {
   ];
 
   return (
-    <div className="bg-white rounded-lg p-6 shadow-sm border w-[30vw] border-gray-100">
+    <div className="bg-white rounded-lg p-6 shadow-sm border w-[30vw] border-gray-100 xl:mt-[-23]">
       <h3 className="text-lg font-semibold text-gray-900 mb-4">Quick Performance Stats</h3>
 
       <div className=" bg-[#F5E8D8]">
         {stats.map((stat, index) => {
           const Icon = stat.icon;
           return (
-            <div key={index} className="flex items-center gap-4 p-3 rounded-lg border border-gray-100">
+            <div key={index} className="flex items-center gap-4 p-3 rounded-lg border border-gray-100  xl:h-12">
               <div className={`p-2 rounded-full ${stat.bgColor}`}>
                 <Icon className={`w-4 h-4 ${stat.color}`} />
               </div>

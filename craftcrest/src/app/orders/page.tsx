@@ -1,5 +1,3 @@
-
-
 'use client';
 import { useState, useRef, useEffect } from 'react';
 import { ChevronDownIcon, MagnifyingGlassIcon } from '@heroicons/react/24/solid';
@@ -41,7 +39,7 @@ const MaroonDropdown: React.FC<MaroonDropdownProps> = ({ options, value, onChang
       <button
         type="button"
         onClick={() => setOpen(!open)}
-        className="w-full px-4 py-2 border rounded-md bg-white text-[#5D070D] font-semibold flex justify-between items-center"
+        className="w-full px-5 py-2 border rounded-md bg-white text-[#5D070D] font-semibold flex justify-between items-center"
         aria-haspopup="listbox"
         aria-expanded={open}
         style={{ cursor: 'pointer' }}
@@ -65,14 +63,14 @@ const MaroonDropdown: React.FC<MaroonDropdownProps> = ({ options, value, onChang
               role="option"
               aria-selected={value === option}
               onClick={() => handleSelect(option)}
-              onKeyDown={(e) => {
+              onKeyDown={(e) => {7
                 if (e.key === 'Enter' || e.key === ' ') {
                   e.preventDefault();
                   handleSelect(option);
                 }
               }}
               tabIndex={0}
-              className={`cursor-pointer select-none px-4 py-2 ${
+              className={`cursor-pointer select-none px-5 py-2 ${
                 value === option ? 'text-[#5D070D]' : ''
               } hover:bg-[#5D070D] hover:text-white`}
             >
@@ -95,9 +93,6 @@ const OrdersPage = () => {
   const [searchQuery, setSearchQuery] = useState('');
 
   const itemsPerPage = 10;
-
-  if (ordersLoading || usersLoading) return <div className="p-8">Loading...</div>;
-  if (ordersError || usersError) return <div className="p-8">Error: {ordersError || usersError}</div>;
 
   const enhancedOrders: EnhancedOrder[] = orders.map((order) => {
     const buyer = users.find((u) => u.id === order.buyer);
@@ -151,71 +146,77 @@ const OrdersPage = () => {
 
   return (
     <Layout>
-    <div className="min-h-screen" style={{ backgroundColor: '#F5E8D8' }}>
-      <div className="px-15 py-10" style={{ color: '#5D070D' }}>
-        <h1 className="text-[35px] font-bold mb-4">Order Management</h1>
-        <div className="flex mb-4 gap-10 items-center">
-          <div className="relative w-110">
-            <input
-              type="text"
-              placeholder="Search by order, buyer, seller, type, status"
-              className="border border-[#5D070D] rounded-xl pl-10 pr-4 py-2 w-full text-[#5D070D] focus:outline-none"
-              value={searchQuery}
-              onChange={(e) => {
-                setSearchQuery(e.target.value.trim());
-                setCurrentPage(1);
-              }}
-              autoComplete="off"
-              style={{
-                WebkitBoxShadow: '0 0 0 1000px white inset',
-                boxShadow: '0 0 0 1000px white inset',
-              }}
-            />
-            <MagnifyingGlassIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 text-[#5D070D] pointer-events-none w-5 h-5" />
-          </div>
+      <div className="flex h-screen bg-[#F5E8D8]" style={{ color: '#5D070D' }}>
+        
 
-          <MaroonDropdown
-            options={['All Status', 'Completed', 'Pending', 'Accepted']}
-            value={selectedStatus}
-            onChange={(val) => {
-              setSelectedStatus(val);
-              setCurrentPage(1);
-            }}
-          />
-        </div>
-        <OrderTable orders={paginatedOrders} onView={handleView} noResults={paginatedOrders.length === 0} />
-        <div className="flex justify-center items-center mt-8 gap-4" style={{ color: '#5D070D' }}>
-          <button
-            onClick={() => handlePageChange('prev')}
-            className={`px-4 py-2 rounded ${
-              currentPage === 1
-                ? 'bg-gray-300 cursor-not-allowed'
-                : 'bg-gray-300 cursor-pointer hover:bg-gray-400'
-            }`}
-            disabled={currentPage === 1}
-            title={currentPage === 1 ? "No previous page" : ""}
-          >
-            Previous
-          </button>
-          <span className="text-lg font-semibold">
-            Page {totalPages === 0 ? 0 : currentPage} of {totalPages}
-          </span>
-          <button
-            onClick={() => handlePageChange('next')}
-            className={`px-4 py-2 rounded ${
-              currentPage === totalPages || totalPages === 0
-                ? 'bg-[#5D070D] cursor-not-allowed text-white'
-                : 'bg-[#5D070D] cursor-pointer hover:bg-[#7a0a1a] text-white'
-            }`}
-            disabled={currentPage === totalPages || totalPages === 0}
-            title={currentPage === totalPages || totalPages === 0 ? "No next page" : ""}
-          >
-            Next
-          </button>
-        </div>
-        {selectedOrder && <OrderModal order={selectedOrder} onClose={handleClose} />}
+        <main className="flex-1 flex flex-col p-6 overflow-y-auto">
+          {ordersLoading || usersLoading ? (
+            <div className="flex-grow flex items-center justify-center text-[#5D070D] text-lg font-semibold">
+              Loading...
+            </div>
+          ) : ordersError || usersError ? (
+            <div className="flex-grow flex items-center justify-center text-red-600 text-lg font-semibold">
+              Error: {ordersError || usersError}
+            </div>
+          ) : (
+            <>
+              <h1 className="text-3xl font-bold mb-6">Order Management</h1>
+              <div className="flex flex-wrap mb-5 gap-5">
+                <div className="relative flex-grow min-w-[250px] max-w-md">
+                  <input
+                    type="text"
+                    placeholder="Search by order, buyer, seller, type, status"
+                    className="w-full border border-[#5D070D] rounded-xl pl-15 pr-5 py-2 text-[#5D070D] focus:outline-none"
+                    value={searchQuery}
+                    onChange={(e) => {
+                      setSearchQuery(e.target.value.trim());
+                      setCurrentPage(1);
+                    }}
+                    autoComplete="off"
+                    style={{ WebkitBoxShadow: '0 0 0 1000px white inset', boxShadow: '0 0 0 1000px white inset' }}
+                  />
+                  <MagnifyingGlassIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-[#5D070D] pointer-events-none" />
+                </div>
+
+                <MaroonDropdown
+                  options={['All Status', 'Completed', 'Pending', 'Accepted']}
+                  value={selectedStatus}
+                  onChange={(val) => {
+                    setSelectedStatus(val);
+                    setCurrentPage(1);
+                  }}
+                />
+              </div>
+
+              <OrderTable orders={paginatedOrders} onView={handleView} noResults={paginatedOrders.length === 0} />
+
+              <div className="flex justify-center items-center gap-4 mt-6">
+                <button
+                  className={`px-5 py-2 rounded ${currentPage === 1 ? 'bg-gray-300 cursor-not-allowed' : 'bg-gray-300 hover:bg-gray-400 cursor-pointer'}`}
+                  onClick={() => handlePageChange('prev')}
+                  disabled={currentPage === 1}
+                  title={currentPage === 1 ? 'No previous page' : undefined}
+                >
+                  Previous
+                </button>
+                <span className="text-[#5D070D] font-semibold text-sm">
+                  Page {totalPages === 0 ? 0 : currentPage} of {totalPages}
+                </span>
+                <button
+                  className={`px-5 py-2 rounded ${currentPage === totalPages || totalPages === 0 ? 'bg-[#5D070D] cursor-not-allowed text-white' : 'bg-[#5D070D] hover:bg-[#7a0a1a] cursor-pointer text-white'}`}
+                  onClick={() => handlePageChange('next')}
+                  disabled={currentPage === totalPages || totalPages === 0}
+                  title={currentPage === totalPages || totalPages === 0 ? 'No next page' : undefined}
+                >
+                  Next
+                </button>
+              </div>
+            </>
+          )}
+
+          {selectedOrder && <OrderModal order={selectedOrder} onClose={handleClose} />}
+        </main>
       </div>
-    </div>
     </Layout>
   );
 };

@@ -5,8 +5,8 @@ import {SalesTrendsChartProps} from '../../../utils/type'
 
 export const SalesTrendsChart = ({ data }: SalesTrendsChartProps) => {
   return (
-    <div className="bg-white rounded-lg p-6 shadow-xl border w-[28vw] ml-20  border-gray-100">
-      <div className="flex items-center justify-between mb-6">
+    <div className="bg-white rounded-lg p-6 shadow-xl border w-[28vw] border-gray-100 xl:h-[30vh] xl:mb-8">
+      <div className="flex items-center justify-between mb-6 xl:mb-1">
         <h3 className="text-lg font-semibold text-gray-900">Sales Trends</h3>
         <select className="border border-gray-300 text-[#5D070D] rounded px-3 py-1 text-sm">
           <option>Monthly</option>
