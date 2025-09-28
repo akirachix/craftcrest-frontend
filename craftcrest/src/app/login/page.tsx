@@ -4,9 +4,9 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { FiEye, FiEyeOff } from 'react-icons/fi';
 import Image from 'next/image';
-import Button from '../sharedComponents/Button';
-import useLogin from '../hooks/useFetchLogin';
 
+import Button,{ButtonVariants} from "../shared-components/Button"
+import useLogin from '../hooks/useFetchLogin';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -22,14 +22,14 @@ export default function LoginPage() {
     setSuccessMessage(null);
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = async (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
 
     const { email, password } = formData;
 
     if (!email.trim() || !password) {
       setSuccessMessage(null);
-      return; 
+      return;
     }
 
     const result = await login({ email, password });
@@ -44,8 +44,15 @@ export default function LoginPage() {
     }
   };
 
+  // Wrapper to provide () => void signature expected by Button
+  const handleButtonClick = () => {
+    if (!loading) {
+      // Call handleSubmit without event
+      handleSubmit();
+    }
+  };
+
   return (
-    
     <div className="flex h-screen w-screen bg-white">
       <div className="w-1/2 relative overflow-hidden">
         <Image
@@ -70,12 +77,12 @@ export default function LoginPage() {
         <div className="max-w-md w-full bg-white rounded-lg p-12 space-y-6 shadow-[0_4px_15px_rgba(93,7,13,0.6)] box-border">
           <h2 className="text-3xl font-bold text-[#5D070D] text-center mb-6">Sign In</h2>
 
-          <form className="space-y-6" onSubmit={handleSubmit}>
+          <form
+            className="space-y-6"
+            onSubmit={handleSubmit} // keep form submit for enter key support
+          >
             <div>
-              <label
-                htmlFor="email"
-                className="block text-gray-700 font-medium mb-2"
-              >
+              <label htmlFor="email" className="block text-gray-700 font-medium mb-2">
                 Email
               </label>
               <input
@@ -91,10 +98,7 @@ export default function LoginPage() {
             </div>
 
             <div className="relative">
-              <label
-                htmlFor="password"
-                className="block text-gray-700 font-medium mb-2"
-              >
+              <label htmlFor="password" className="block text-gray-700 font-medium mb-2">
                 Password
               </label>
               <input
@@ -116,25 +120,21 @@ export default function LoginPage() {
                 {showPassword ? <FiEye size={20} /> : <FiEyeOff size={20} />}
               </button>
             </div>
-            {error && (
-              <p className="text-red-500 text-sm text-center">{error}</p>
-            )}
-            {successMessage && (
-              <p className="text-green-600 text-sm text-center">{successMessage}</p>
-            )}
+
+            {error && <p className="text-red-500 text-sm text-center">{error}</p>}
+            {successMessage && <p className="text-green-600 text-sm text-center">{successMessage}</p>}
 
             <div className="mt-6 cursor-pointer">
               <Button
                 type="submit"
-                variant="primary"
+                variant={ButtonVariants.primary}
                 buttonText={loading ? 'Signing in...' : 'Sign In'}
-                disabled={loading}
+                onClickHandler={handleButtonClick}
               />
             </div>
           </form>
         </div>
       </div>
     </div>
-   
   );
 }

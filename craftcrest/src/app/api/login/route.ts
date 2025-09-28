@@ -1,5 +1,6 @@
 
-const baseUrl = process.env.BASE_URL;
+const baseUrl = process.env.BASE_URL 
+
 
 export async function POST(request: Request) {
   try {
