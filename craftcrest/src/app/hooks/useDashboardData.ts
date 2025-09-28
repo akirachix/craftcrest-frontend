@@ -37,7 +37,7 @@ export const useDashboardData = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Individual fetch hooks
+
   const { payments, loading: paymentsLoading, error: paymentsError } = useFetchPayments();
   const { orders, loading: ordersLoading, error: ordersError } = useFetchOrders();
   const { users, loading: usersLoading, error: usersError } = useFetchUsers();
@@ -45,13 +45,13 @@ export const useDashboardData = () => {
   const { ratings, loading: ratingsLoading, error: ratingsError } = useFetchRatings();
 
   useEffect(() => {
-    // Compute combined loading state
+
     const anyLoading = paymentsLoading || ordersLoading || usersLoading || inventoryLoading || ratingsLoading;
-    // Aggregate errors if any
+
     const anyError = paymentsError || ordersError || usersError || inventoryError || ratingsError;
 
     if (anyLoading) {
-      // On active loading, set loading true and reset error & data
+  
       setLoading(true);
       setError(null);
       setData(null);
@@ -59,25 +59,23 @@ export const useDashboardData = () => {
     }
 
     if (anyError) {
-      // If any error, set error and loading false
+    
       setError(anyError);
       setLoading(false);
       setData(null);
       return;
     }
 
-    // All data loaded successfully, perform data transformation
+
     try {
-      // Total Sales
+     
       const totalSales = payments.reduce((amount: number, payment: Payment) => amount + parseFloat(payment.amount), 0);
 
-      // Total Orders
       const totalOrders = orders.length;
 
-      // Verified Sellers
+    
       const verifiedSellers = users.filter(user => user.user_type === 'artisan' && user.otp_verified).length;
 
-      // Sales Trends by month
       const salesByMonth = orders.reduce((acc, order) => {
         const month = new Date(order.created_at).toLocaleDateString('en-US', { month: 'short' });
         acc[month] = (acc[month] || 0) + Number(order.total_amount);
@@ -89,13 +87,11 @@ export const useDashboardData = () => {
         value: Math.round(value),
       }));
 
-      // Seller verification stats
       const totalSellers = users.filter(user => user.user_type === 'artisan').length;
       const verified = verifiedSellers;
       const unverified = totalSellers - verified;
       const verificationRate = totalSellers > 0 ? Math.round((verified / totalSellers) * 100 * 10) / 10 : 0;
 
-      // Product categories percentage
       const categoryCount = inventory.reduce((acc, product) => {
         const category = product.category;
         acc[category] = (acc[category] || 0) + 1;
@@ -108,7 +104,7 @@ export const useDashboardData = () => {
         percentage: totalProducts > 0 ? Math.round((count / totalProducts) * 100) : 0,
       }));
 
-      // Performance stats
+     
       const rejectedOrders = orders.filter(order => order.status === 'rejected').length;
       const rejectionRate = totalOrders > 0 ? Math.round((rejectedOrders / totalOrders) * 100 * 10) / 10 : 0;
 
@@ -121,7 +117,7 @@ export const useDashboardData = () => {
       const fulfilledOrders = orders.filter(order => order.delivery_confirmed).length;
       const fulfillmentRate = totalOrders > 0 ? Math.round((fulfilledOrders / totalOrders) * 100 * 10) / 10 : 0;
 
-      // Compose data object
+      
       const transformedData: DashboardStats = {
         totalSales,
         totalOrders,

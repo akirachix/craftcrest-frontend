@@ -6,15 +6,18 @@ export enum ButtonVariants {
 interface ButtonProps {
   type?: 'button' | 'submit' | 'reset';
   buttonText: string;
-  variant: ButtonVariants | string; // use enum type here
+  variant: ButtonVariants | string; 
   onClickHandler: () => void;
+  className?: string;  
+  style?: React.CSSProperties;
+  
 }
 
 const Button = ({ buttonText, variant, onClickHandler }: ButtonProps) => {
   function variantStyles() {
     switch(variant) {
       case ButtonVariants.primary:
-        return 'bg-[#5D070D] text-white';
+        return 'bg-[#5D070D] text-white w-full';
       case ButtonVariants.secondary:
         return 'bg-white text-red-900 border border-green-600';
       default:

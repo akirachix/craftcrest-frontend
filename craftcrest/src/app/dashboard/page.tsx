@@ -46,7 +46,7 @@ const Dashboard = () => {
             <StatsCard
               title="Total Sales"
               value={`Ksh ${data.totalSales.toLocaleString()}`}
-              icon={TrendingUp}  // pass icon component directly here
+              icon={TrendingUp}  
               iconColor="text-white"
             />
             <StatsCard

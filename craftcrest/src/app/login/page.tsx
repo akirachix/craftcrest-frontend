@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { FiEye, FiEyeOff } from 'react-icons/fi';
 import Image from 'next/image';
 
-import Button,{ButtonVariants} from "../shared-components/Button"
+import Button, { ButtonVariants } from "../shared-components/Button";
 import useLogin from '../hooks/useFetchLogin';
 
 export default function LoginPage() {
@@ -44,10 +44,8 @@ export default function LoginPage() {
     }
   };
 
-  // Wrapper to provide () => void signature expected by Button
   const handleButtonClick = () => {
     if (!loading) {
-      // Call handleSubmit without event
       handleSubmit();
     }
   };
@@ -77,10 +75,7 @@ export default function LoginPage() {
         <div className="max-w-md w-full bg-white rounded-lg p-12 space-y-6 shadow-[0_4px_15px_rgba(93,7,13,0.6)] box-border">
           <h2 className="text-3xl font-bold text-[#5D070D] text-center mb-6">Sign In</h2>
 
-          <form
-            className="space-y-6"
-            onSubmit={handleSubmit} // keep form submit for enter key support
-          >
+          <form className="space-y-6" onSubmit={handleSubmit}>
             <div>
               <label htmlFor="email" className="block text-gray-700 font-medium mb-2">
                 Email
@@ -124,12 +119,13 @@ export default function LoginPage() {
             {error && <p className="text-red-500 text-sm text-center">{error}</p>}
             {successMessage && <p className="text-green-600 text-sm text-center">{successMessage}</p>}
 
-            <div className="mt-6 cursor-pointer">
+            <div className="mt-6">
               <Button
                 type="submit"
                 variant={ButtonVariants.primary}
                 buttonText={loading ? 'Signing in...' : 'Sign In'}
                 onClickHandler={handleButtonClick}
+                className=" px-3 py-3 text-base"
               />
             </div>
           </form>
