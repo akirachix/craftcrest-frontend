@@ -1,6 +1,6 @@
 import { fetchRatings } from "./fetchRatings";
 
-const mockFetchResponse = (data: any, ok = true, status = 200) => ({
+const mockFetchResponse = (data: unknown, ok = true, status = 200) => ({
   ok,
   status,
   json: async () => data,
@@ -35,8 +35,12 @@ describe('getRatings', () => {
     try {
       await fetchRatings();
       throw new Error('fetchRatings did not reject');
-    } catch (e: any) {
-      expect(e.message).toBe("Couldn't fetch ratingsUnable to fetch ratings. Please try again later.: 404");
+    } catch (e) {
+      if (e instanceof Error) {
+        expect(e.message).toBe("Couldn't fetch ratingsUnable to fetch ratings. Please try again later.: 404");
+      } else {
+        throw e;
+      }
     }
   });
 
@@ -46,8 +50,12 @@ describe('getRatings', () => {
     try {
       await fetchRatings();
       throw new Error('fetchRatings did not reject');
-    } catch (e: any) {
-      expect(e.message).toBe("Couldn't fetch ratingsNetwork failure");
+    } catch (e) {
+      if (e instanceof Error) {
+        expect(e.message).toBe("Couldn't fetch ratingsNetwork failure");
+      } else {
+        throw e;
+      }
     }
   });
 });

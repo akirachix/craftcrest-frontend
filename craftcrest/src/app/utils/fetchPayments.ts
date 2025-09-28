@@ -1,7 +1,5 @@
-
-const baseUrl = "/api/payments/"
-
 export async function fetchPayments() {
+  const baseUrl = "/api/payments/";
   try {
     const response = await fetch(baseUrl);
     if (!response.ok) {
@@ -10,8 +8,6 @@ export async function fetchPayments() {
     const result = await response.json();
     return result;
   } catch (error) {
-    throw new Error("Couldn't fetch payments:" + (error as Error).message);
+    throw new Error("Couldn't fetch payments:" + (error instanceof Error ? error.message : String(error)));
   }
 }
-
-

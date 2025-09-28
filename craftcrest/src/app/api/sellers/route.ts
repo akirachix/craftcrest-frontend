@@ -8,7 +8,7 @@ export async function GET() {
     const response = await fetch(`${baseUrl}/users/`)
     const users = await response.json();
     const sellers = [];
-    for (var i = 0; i < users.length; i++) {
+    for (let i = 0; i < users.length; i++) {
       if (users[i].user_type === "artisan") sellers.push(users[i]);
     }
     return new Response(JSON.stringify(sellers), {

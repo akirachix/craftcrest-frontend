@@ -1,104 +1,41 @@
-import { renderHook, waitFor } from '@testing-library/react';
-import useFetchPayments from "../hooks/useFetchPayments";
-import { fetchPayments } from '../utils/fetchPayments';
-import '@testing-library/jest-dom';
+import { fetchPayments } from './fetchPayments';
 
-jest.mock('../utils/fetchPayments');
-jest.mock('../utils/fetchPayments', () => ({
-    fetchPayments: jest.fn(),
-}));
-
-const mockGetPayments = fetchPayments as jest.MockedFunction<typeof fetchPayments>;
-const mockFetchPayments = fetchPayments as jest.Mock;
-
-describe('useFetchPayments hook', () => {
+describe('fetchPayments', () => {
   afterEach(() => {
-    jest.clearAllMocks();
+    jest.resetAllMocks();
   });
 
-  it('should start loading state correctly', () => {
-    mockGetPayments.mockReturnValue(new Promise(() => {}));
-    const { result } = renderHook(() => useFetchPayments());
-    expect(result.current.loading).toBe(true);
+  it('returns data when response is successful', async () => {
+    const mockData = [{ id: 1, amount: 100 }];
+    global.fetch = jest.fn(() =>
+      Promise.resolve({
+        ok: true,
+        status: 200,
+        json: async () => mockData,
+      }),
+    ) as jest.Mock;
+
+    const data = await fetchPayments();
+    expect(data).toEqual(mockData);
+    expect(global.fetch).toHaveBeenCalledWith('/api/payments/');
   });
 
-  it('should handle success state', async () => {
-    const payments = [
-      { id: 1, amount: 100, method: 'Mpesa' },
-      { id: 2, amount: 50, method: 'Mpesa' },
-    ];
-    mockGetPayments.mockResolvedValue(payments);
-    const { result } = renderHook(() => useFetchPayments());
+  it('throws an error when response is not ok', async () => {
+    global.fetch = jest.fn(() =>
+      Promise.resolve({
+        ok: false,
+        status: 500,
+        statusText: 'Server Error',
+        json: async () => null,
+      }),
+    ) as jest.Mock;
 
-    expect(result.current.loading).toBe(true);
-    await waitFor(() => expect(result.current.loading).toBe(false));
-
-    expect(result.current.payments).toEqual(payments);
-    expect(result.current.error).toBeNull();
+    await expect(fetchPayments()).rejects.toThrow('Failed to fetch payments: Server Error');
   });
 
-  it('should handle empty payments array', async () => {
-    mockGetPayments.mockResolvedValue([]);
-    const { result } = renderHook(() => useFetchPayments());
-    await waitFor(() => expect(result.current.loading).toBe(false));
+  it('throws an error when fetch itself fails', async () => {
+    global.fetch = jest.fn(() => Promise.reject(new Error('Network failure'))) as jest.Mock;
 
-    expect(result.current.payments).toEqual([]);
-    expect(result.current.error).toBeNull();
-  });
-
-  it('should handle error state', async () => {
-    const mockError = new Error('Failed to fetch');
-    mockGetPayments.mockRejectedValue(mockError);
-    const { result } = renderHook(() => useFetchPayments());
-
-    expect(result.current.loading).toBe(true);
-    await waitFor(() => expect(result.current.loading).toBe(false));
-
-    expect(result.current.payments).toEqual([]);
-    expect(result.current.error).toBe('Failed to fetch');
+    await expect(fetchPayments()).rejects.toThrow("Couldn't fetch payments:Network failure");
   });
 });
-
-describe('usePayments hook', () => {
-  afterEach(() => {
-    jest.clearAllMocks();
-  });
-
-  it('should start loading state correctly', () => {
-    mockGetPayments.mockReturnValue(new Promise(() => {}));
-    const { result } = renderHook(() => useFetchPayments());
-    expect(result.current.loading).toBe(true);
-  });
-
-  it('should handle success state', async () => {
-    const mockData = [
-      { id: 1, amount: 100, status: "paid" },
-    ];
-    mockGetPayments.mockResolvedValue(mockData);
-    const { result } = renderHook(() => useFetchPayments());
-    expect(result.current.loading).toBe(true);
-    await waitFor(() => expect(result.current.loading).toBe(false));
-
-    expect(result.current.payments).toEqual(mockData);
-    expect(result.current.error).toBeNull();
-  });
-
-  it('should handle empty state', async () => {
-    mockGetPayments.mockResolvedValue([]);
-    const { result } = renderHook(() => useFetchPayments());
-    await waitFor(() => expect(result.current.loading).toBe(false));
-
-    expect(result.current.payments).toEqual([]);
-    expect(result.current.error).toBeNull();
-  });
-
-  it('should handle error state', async () => {
-    const mockError = new Error('fetch error');
-    mockGetPayments.mockRejectedValue(mockError);
-    const { result } = renderHook(() => useFetchPayments());
-    expect(result.current.loading).toBe(true);
-    await waitFor(() => expect(result.current.loading).toBe(false));
-    expect(result.current.payments).toEqual([]);
-    expect(result.current.error).toBe(mockError.message || mockError);
-  });
-} )

@@ -1,38 +1,48 @@
-import { fetchOrders } from '../utils/fetchOrders';
+import { renderHook } from '@testing-library/react';
+import { waitFor } from '@testing-library/react';
+import useFetchOrders from './useFetchOrders';
+import * as fetchOrdersModule from '../utils/fetchOrders';
 
-const mockFetchResponse = (data: any, ok = true, status = 200) => ({
-  ok,
-  status,
-  json: async () => data,
-});
+jest.mock('../utils/fetchOrders');
 
-describe('fetchOrders', () => {
+const mockedFetchOrders = fetchOrdersModule.fetchOrders as jest.MockedFunction<typeof fetchOrdersModule.fetchOrders>;
+
+describe('useFetchOrders hook', () => {
   afterEach(() => {
     jest.resetAllMocks();
   });
 
-  it('should handle empty state', async () => {
-    global.fetch = jest.fn(() => Promise.resolve(mockFetchResponse([], true))) as jest.Mock;
-    const data = await fetchOrders();
-    expect(data).toEqual([]);
-    expect(global.fetch).toHaveBeenCalledWith('/api/orders');
+  it('should have loading true initially', () => {
+    const { result } = renderHook(() => useFetchOrders());
+    expect(result.current.loading).toBe(true);
+    expect(result.current.orders).toEqual([]);
+    expect(result.current.error).toBeNull();
   });
 
   it('should handle success state', async () => {
-    const mockData = [{ id: 1, item: 'Item1' }];
-    global.fetch = jest.fn(() => Promise.resolve(mockFetchResponse(mockData, true))) as jest.Mock;
-    const data = await fetchOrders();
-    expect(data).toEqual(mockData);
+    const mockOrders = [{ id: 1, item: 'Item1' }, { id: 2, item: 'Item2' }];
+    mockedFetchOrders.mockResolvedValue(mockOrders);
+
+    const { result } = renderHook(() => useFetchOrders());
+
+    await waitFor(() => {
+      expect(result.current.loading).toBe(false);
+    });
+
+    expect(result.current.orders).toEqual(mockOrders);
+    expect(result.current.error).toBeNull();
   });
 
   it('should handle error state', async () => {
-    const errorData = { error: 'Something went wrong' };
-    global.fetch = jest.fn(() => Promise.resolve(mockFetchResponse(errorData, false, 404))) as jest.Mock;
-    await expect(fetchOrders()).rejects.toThrow('Unable to fetch orders. Please try again later.: Something went wrong');
-  });
+    mockedFetchOrders.mockRejectedValue(new Error('Network failure'));
 
-  it('should handle error on response', async () => {
-    global.fetch = jest.fn(() => Promise.reject(new Error('Network failure'))) as jest.Mock;
-    await expect(fetchOrders()).rejects.toThrow('Unable to fetch orders. Please try again later.: Network failure');
+    const { result } = renderHook(() => useFetchOrders());
+
+    await waitFor(() => {
+      expect(result.current.loading).toBe(false);
+    });
+
+    expect(result.current.orders).toEqual([]);
+    expect(result.current.error).toContain('Network failure');
   });
 });

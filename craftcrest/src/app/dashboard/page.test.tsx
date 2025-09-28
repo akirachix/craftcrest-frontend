@@ -2,11 +2,7 @@ import React from 'react';
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 import { SellerVerificationChart } from '../dashboard/components/SellerVerificationChart';
-import { SalesTrendsChart } from './components/SalesTrendsChart'; 
-import { ProductCategories } from './components/ProductCategories';
-import { LayoutGrid } from 'lucide-react';
 import { PerformanceStats } from './components/PerformanceStats';
-
 
 const mockData = {
   verified: 30,
@@ -14,14 +10,30 @@ const mockData = {
   verificationRate: 60
 };
 
+function ChartTestWrapper({ children }: { children: React.ReactNode }) {
+  return (
+    <div style={{ width: 400, height: 300 }}>
+      {children}
+    </div>
+  );
+}
+
 describe('SellerVerificationChart', () => {
   test('renders chart title', () => {
-    render(<SellerVerificationChart data={mockData} />);
+    render(
+      <ChartTestWrapper>
+        <SellerVerificationChart data={mockData} />
+      </ChartTestWrapper>
+    );
     expect(screen.getByText('Seller Verification')).toBeInTheDocument();
   });
 
   test('renders pie chart slices and total', () => {
-    render(<SellerVerificationChart data={mockData} />);
+    render(
+      <ChartTestWrapper>
+        <SellerVerificationChart data={mockData} />
+      </ChartTestWrapper>
+    );
     expect(screen.getByText((mockData.verified + mockData.unverified).toString())).toBeInTheDocument();
     expect(screen.getByText('Verified')).toBeInTheDocument();
     expect(screen.getByText(`30 (60%)`)).toBeInTheDocument();
@@ -33,16 +45,14 @@ describe('SellerVerificationChart', () => {
   });
 });
 
-
-
 jest.mock('lucide-react', () => ({
   LayoutGrid: () => <svg data-testid="layout-grid-icon" />,
 }));
 
 jest.mock('lucide-react', () => ({
-  AlertCircle: (props: any) => <svg data-testid="alert-circle-icon" {...props} />,
-  CheckCircle: (props: any) => <svg data-testid="check-circle-icon" {...props} />,
-  Star: (props: any) => <svg data-testid="star-icon" {...props} />,
+  AlertCircle: (props: Record<string, unknown>) => <svg data-testid="alert-circle-icon" {...props} />,
+  CheckCircle: (props: Record<string, unknown>) => <svg data-testid="check-circle-icon" {...props} />,
+  Star: (props: Record<string, unknown>) => <svg data-testid="star-icon" {...props} />,
 }));
 
 describe('PerformanceStats component', () => {
@@ -81,5 +91,4 @@ describe('PerformanceStats component', () => {
     expect(checkCircleIcons.length).toBe(2);
     expect(screen.getByTestId('star-icon')).toBeInTheDocument();
   });
-
-})
+});
