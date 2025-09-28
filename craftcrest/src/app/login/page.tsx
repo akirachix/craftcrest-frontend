@@ -4,9 +4,9 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { FiEye, FiEyeOff } from 'react-icons/fi';
 import Image from 'next/image';
-import Button from '../sharedComponents/Button';
-import useLogin from '../hooks/useFetchLogin';
 
+import Button, { ButtonVariants } from "../shared-components/Button";
+import useLogin from '../hooks/useFetchLogin';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -22,14 +22,14 @@ export default function LoginPage() {
     setSuccessMessage(null);
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = async (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
 
     const { email, password } = formData;
 
     if (!email.trim() || !password) {
       setSuccessMessage(null);
-      return; 
+      return;
     }
 
     const result = await login({ email, password });
@@ -44,8 +44,13 @@ export default function LoginPage() {
     }
   };
 
+  const handleButtonClick = () => {
+    if (!loading) {
+      handleSubmit();
+    }
+  };
+
   return (
-    
     <div className="flex h-screen w-screen bg-white">
       <div className="w-1/2 relative overflow-hidden">
         <Image
@@ -72,10 +77,7 @@ export default function LoginPage() {
 
           <form className="space-y-6" onSubmit={handleSubmit}>
             <div>
-              <label
-                htmlFor="email"
-                className="block text-gray-700 font-medium mb-2"
-              >
+              <label htmlFor="email" className="block text-gray-700 font-medium mb-2">
                 Email
               </label>
               <input
@@ -91,10 +93,7 @@ export default function LoginPage() {
             </div>
 
             <div className="relative">
-              <label
-                htmlFor="password"
-                className="block text-gray-700 font-medium mb-2"
-              >
+              <label htmlFor="password" className="block text-gray-700 font-medium mb-2">
                 Password
               </label>
               <input
@@ -116,25 +115,22 @@ export default function LoginPage() {
                 {showPassword ? <FiEye size={20} /> : <FiEyeOff size={20} />}
               </button>
             </div>
-            {error && (
-              <p className="text-red-500 text-sm text-center">{error}</p>
-            )}
-            {successMessage && (
-              <p className="text-green-600 text-sm text-center">{successMessage}</p>
-            )}
 
-            <div className="mt-6 cursor-pointer">
+            {error && <p className="text-red-500 text-sm text-center">{error}</p>}
+            {successMessage && <p className="text-green-600 text-sm text-center">{successMessage}</p>}
+
+            <div className="mt-6">
               <Button
                 type="submit"
-                variant="primary"
+                variant={ButtonVariants.primary}
                 buttonText={loading ? 'Signing in...' : 'Sign In'}
-                disabled={loading}
+                onClickHandler={handleButtonClick}
+                className=" px-3 py-3 text-base"
               />
             </div>
           </form>
         </div>
       </div>
     </div>
-   
   );
 }

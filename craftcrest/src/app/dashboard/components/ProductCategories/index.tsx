@@ -11,13 +11,13 @@ const categoryColors = {
 
 export const ProductCategories = ({ data }: ProductCategoriesProps) => {
   return (
-    <div className="bg-white rounded-lg p-6  w-[32vw] h-[40vh] shadow-sm border ml-20 border-gray-100">
-      <div className="flex items-center gap-2 mb-6">
+    <div className="bg-white rounded-lg p-6  w-[32vw] h-[40vh] shadow-sm border  border-gray-100 xl:mt-[-19] xl:h-70">
+      <div className="flex items-center gap-2 mb-6 ">
         <LayoutGrid className="w-5 h-5 text-gray-600" />
-        <h3 className="text-lg font-semibold text-gray-900">Product Categories</h3>
+        <h3 className="text-lg font-semibold text-gray-900 xl:text-[15px]">Product Categories</h3>
       </div>
 
-      <div className="space-y-4">
+      <div className="space-y-4 xl:space-y-0">
         {data.map((category, index) => (
           <div key={index} className="space-y-2">
             <div className="flex justify-between items-center">

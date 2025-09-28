@@ -10,13 +10,13 @@ export const SellerVerificationChart = ({ data }: SellerVerificationChartProps) 
   const total = data.verified + data.unverified;
 
   return (
-    <div className="bg-white rounded-xl p-6 w-[40vw] max-w-[30vw] h-[30vh] shadow-xl border border-gray-50 flex flex-col">
+    <div className="bg-white rounded-xl p-6 w-[40vw] max-w-[30vw] h-[30vh] lg:h-[290] shadow-xl border border-gray-50 flex flex-col xl:h-60 ">
       <div className="flex justify-between items-center mb-6">
         <h3 className="text-lg font-semibold text-[#8B1538]">Seller Verification</h3>
 
       </div>
-      <div className="flex gap-6 flex-grow">
-        <div className="relative w-[20vw] h-[10vw]">
+      <div className="flex  flex-grow   ">
+        <div className="relative w-[20vw] h-[10vw] ">
           <ResponsiveContainer width="100%" height="100%">
             <PieChart>
               <Pie
@@ -41,7 +41,7 @@ export const SellerVerificationChart = ({ data }: SellerVerificationChartProps) 
             <span className="text-2xl font-semibold text-[#8B1538]">{total}</span>
           </div>
         </div>
-        <div className="flex flex-col justify-between w-full">
+        <div className="flex flex-col justify-between w-full xl:h-35">
           <div>
             <div className=" mt-6 flex items-center gap-3 mb-4">
               <div
