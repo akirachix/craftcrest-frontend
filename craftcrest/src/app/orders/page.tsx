@@ -1,4 +1,5 @@
 'use client';
+
 import { useState, useRef, useEffect } from 'react';
 import { ChevronDownIcon, MagnifyingGlassIcon } from '@heroicons/react/24/solid';
 import useFetchOrders from '../hooks/useFetchOrders';
@@ -63,7 +64,7 @@ const MaroonDropdown: React.FC<MaroonDropdownProps> = ({ options, value, onChang
               role="option"
               aria-selected={value === option}
               onClick={() => handleSelect(option)}
-              onKeyDown={(e) => {7
+              onKeyDown={(e) => {
                 if (e.key === 'Enter' || e.key === ' ') {
                   e.preventDefault();
                   handleSelect(option);
@@ -92,7 +93,7 @@ const OrdersPage = () => {
   const [selectedStatus, setSelectedStatus] = useState('All Status');
   const [searchQuery, setSearchQuery] = useState('');
 
-  const itemsPerPage = 10;
+  const itemsPerPage = 8;
 
   const enhancedOrders: EnhancedOrder[] = orders.map((order) => {
     const buyer = users.find((u) => u.id === order.buyer);
@@ -147,8 +148,6 @@ const OrdersPage = () => {
   return (
     <Layout>
       <div className="flex h-screen bg-[#F5E8D8]" style={{ color: '#5D070D' }}>
-        
-
         <main className="flex-1 flex flex-col p-6 overflow-y-auto">
           {ordersLoading || usersLoading ? (
             <div className="flex-grow flex items-center justify-center text-[#5D070D] text-lg font-semibold">
@@ -188,7 +187,12 @@ const OrdersPage = () => {
                 />
               </div>
 
-              <OrderTable orders={paginatedOrders} onView={handleView} noResults={paginatedOrders.length === 0} />
+              <OrderTable
+                orders={paginatedOrders}
+                totalOrders={filteredOrders.length}
+                onView={handleView}
+                noResults={paginatedOrders.length === 0}
+              />
 
               <div className="flex justify-center items-center gap-4 mt-6">
                 <button

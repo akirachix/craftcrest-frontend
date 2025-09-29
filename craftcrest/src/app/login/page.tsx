@@ -3,8 +3,8 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { FiEye, FiEyeOff } from 'react-icons/fi';
 import Image from 'next/image';
-import Button, { ButtonVariants } from "../shared-components/Button";
 import useLogin from '../hooks/useFetchLogin';
+
 export default function LoginPage() {
   const router = useRouter();
   const { login, loading, error } = useLogin();
@@ -42,7 +42,7 @@ export default function LoginPage() {
     <div className="flex h-screen w-screen bg-white">
       <div className="w-1/2 relative overflow-hidden">
         <Image
-          src={'/Images/ side-image.png'}
+          src={'/images/ side-image.png'}
           alt="side shape"
           width={0}
           height={0}
@@ -50,12 +50,12 @@ export default function LoginPage() {
           className="w-full absolute"
         />
         <Image
-          src={'/Images/craft -logo.png'}
+          src={'/images/craft -logo.png'}
           alt="logo"
           width={0}
           height={0}
           sizes="100vw"
-          className="w-100 relative m-50"
+          className="w-100 relative lg:w-[290px] xl:w-[390] m-50 xl:ml-[90px] lg:ml-[100px] "
         />
       </div>
       <div className="w-1/2 flex items-center justify-center bg-[#FFF9F5]">

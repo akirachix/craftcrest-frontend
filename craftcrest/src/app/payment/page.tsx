@@ -1,12 +1,10 @@
 "use client";
+
 import { useState, useEffect, useRef } from "react";
 import { CreditCard, ChevronDown, ChevronUp } from "lucide-react";
 import type { Payment } from "@/app/utils/type";
 import { useFetchPayments } from "@/app/hooks/useFetchPayments";
-
 import PaymentModal from "./components/PaymentModal";
-import Button from "@/app/shared-components/Button";
-
 import Layout from "../shared-components/Layout";
 
 const paymentStatus: { [key: string]: string } = {
@@ -42,18 +40,18 @@ export default function PaymentTable() {
 
   const filtered = Array.isArray(payments)
     ? payments.filter((payment) => {
-      const matchesId = payment.id.toString().includes(search);
-      const matchesStatus = statusFilter ? payment.status === statusFilter : true;
-      if (!monthFilter) return matchesId && matchesStatus;
-      const date = new Date(payment.paid_at);
-      const [year, month] = monthFilter.split("-").map(Number);
-      return (
-        matchesId &&
-        matchesStatus &&
-        date.getFullYear() === year &&
-        date.getMonth() + 1 === month
-      );
-    })
+        const matchesId = payment.id.toString().includes(search);
+        const matchesStatus = statusFilter ? payment.status === statusFilter : true;
+        if (!monthFilter) return matchesId && matchesStatus;
+        const date = new Date(payment.paid_at);
+        const [year, month] = monthFilter.split("-").map(Number);
+        return (
+          matchesId &&
+          matchesStatus &&
+          date.getFullYear() === year &&
+          date.getMonth() + 1 === month
+        );
+      })
     : [];
 
   const totalPages = Math.max(1, Math.ceil(filtered.length / itemsPerPage));
@@ -114,7 +112,7 @@ export default function PaymentTable() {
                     setSearch(e.target.value);
                     setPage(1);
                   }}
-                  className="px-4 py-2 border border-[#5D070D] rounded text-[#5D070D] focus:ring-1 focus:ring-[#5D070D] flex-grow min-w-[180px]"
+                  className="px-4 py-2 border border-[#5D070D] rounded text-[#5D070D] focus:ring-1 focus:ring-[#5D070D] w-[220px]"
                 />
                 <input
                   type="month"
@@ -159,12 +157,12 @@ export default function PaymentTable() {
               <div className="bg-white rounded-lg shadow-lg border border-[#5D070D]">
                 <div className="p-4 border-b border-[#5D070D] flex items-center gap-4">
                   <CreditCard className="text-[#5D070D]" size={32} />
-                  <h2 className="font-semibold text-gray-900">All Payments ({filtered.length})</h2>
+                  <h2 className="font-semibold text-[#5D070D] text-[18px]">All Payments ({filtered.length})</h2>
                 </div>
 
                 <div className="overflow-x-auto">
                   <table className="w-full min-w-[600px] text-left">
-                    <thead className="bg-[#5D070D] text-white text-[18px] font-semibold rounded-tl-lg rounded-tr-lg">
+                    <thead className="bg-[#5D070D] text-white text-[17px] font-semibold">
                       <tr>
                         {[
                           "Payment ID",
@@ -174,7 +172,7 @@ export default function PaymentTable() {
                           "Status",
                           "Details",
                         ].map((header) => (
-                          <th key={header} className="pl-10 py-3 text-left lg:text-[15px]">
+                          <th key={header} className="pl-10 py-3 text-left whitespace-nowrap">
                             {header}
                           </th>
                         ))}
@@ -191,18 +189,23 @@ export default function PaymentTable() {
                         currentPage.map((payment, index) => (
                           <tr
                             key={payment.id}
-                            className={`text-[#5D070D] text-[16px] lg:text-[13px] ${index % 2 === 0 ? "bg-white" : "bg-[#FAF2E8]"
-                              } hover:bg-[#F5E8D8] transition-colors duration-200`}
+                            className={`text-[#5D070D] text-[16px] lg:text-[13px] ${
+                              index % 2 === 0 ? "bg-white" : "bg-[#FAF2E8]"
+                            } hover:bg-[#F5E8D8] transition-colors duration-200`}
                           >
-                            <td className="pl-10 py-4 lg:text-[12px] font-semibold">
+                            <td className="pl-10 py-4 lg:text-[12px] font-semibold whitespace-nowrap">
                               {PAYMENT_ID_PREFIX} {payment.id}
                             </td>
-                            <td className="pl-10 py-4 lg:text-[12px]">
+                            <td className="pl-10 py-4 lg:text-[12px] whitespace-nowrap">
                               {CURRENCY_PREFIX} {payment.amount}
                             </td>
-                            <td className="pl-10 py-4 lg:text-[12px]">{formatDate(payment.paid_at)}</td>
-                            <td className="pl-10 py-4 lg:text-[12px]">Order {payment.order}</td>
-                            <td className="pl-10 py-4 lg:text-[12px]">
+                            <td className="pl-10 py-4 lg:text-[12px] whitespace-nowrap">
+                              {formatDate(payment.paid_at)}
+                            </td>
+                            <td className="pl-10 py-4 lg:text-[12px] whitespace-nowrap">
+                              Order {payment.order}
+                            </td>
+                            <td className="pl-10 py-4 lg:text-[12px] whitespace-nowrap">
                               {payment.status.toLowerCase() === "held" ? (
                                 <button
                                   className="bg-yellow-200 text-[#5D070D] border border-yellow-200 px-2 py-1 rounded text-sm font-semibold hover:bg-yellow-400 transition"
@@ -218,16 +221,16 @@ export default function PaymentTable() {
                                 </span>
                               )}
                             </td>
-
-                            <td className="pl-16 py-4 lg:text-[12px]">
-                              <Button
-                                buttonText="View"
-                                variant="primary"
-                                onClickHandler={() => {
+                            <td className="pl-10 py-4 lg:text-[12px] whitespace-nowrap">
+                              <button
+                                onClick={() => {
                                   setSelectedPayment(payment);
                                   setIsModalOpen(true);
                                 }}
-                              />
+                                className="bg-[#5D070D] hover:bg-[#7a0a1a] text-white text-sm px-2 py-1 rounded-md transition cursor-pointer"
+                              >
+                                View
+                              </button>
                             </td>
                           </tr>
                         ))
