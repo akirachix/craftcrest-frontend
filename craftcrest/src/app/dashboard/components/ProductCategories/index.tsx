@@ -6,12 +6,13 @@ const categoryColors = {
   'Pottery': '#8B1538',
   'Ceramics': '#DC2626', 
   'Tailoring': '#FCD34D',
-  'Weaving': '#2F7329'
+  'Weaving': '#2F7329',
+  'Crocheting':'#8B1538'
 };
 
 export const ProductCategories = ({ data }: ProductCategoriesProps) => {
   return (
-    <div className="bg-white rounded-lg p-6  w-[32vw] h-[40vh] shadow-sm border  border-gray-100 xl:mt-[-19] xl:h-70">
+    <div className="bg-white rounded-lg p-6  w-[32vw] h-[70vh] shadow-sm border  border-gray-100 xl:mt-[-19] xl:h-80">
       <div className="flex items-center gap-2 mb-6 ">
         <LayoutGrid className="w-5 h-5 text-gray-600" />
         <h3 className="text-lg font-semibold text-gray-900 xl:text-[15px]">Product Categories</h3>

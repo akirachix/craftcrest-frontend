@@ -1,4 +1,4 @@
-import { AlertCircle, CheckCircle, Star } from 'lucide-react';
+import { AlertCircle, CheckCircle, Star, Clock } from 'lucide-react';
 import { PerformanceStatsProps } from '../../../utils/type';
 
 export const PerformanceStats = ({ data }: PerformanceStatsProps) => {

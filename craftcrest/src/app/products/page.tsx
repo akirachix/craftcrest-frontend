@@ -118,7 +118,7 @@ export default function ProductManagement() {
 
                 <div className="overflow-x-auto">
                   <table className="w-full min-w-[600px] text-left">
-                    <thead className="bg-[#5D070D] text-white text-[18px] font-semibold rounded-tl-lg rounded-tr-lg">
+                    <thead className="bg-[#5D070D] text-white text-[17px] font-semibold rounded-tl-lg rounded-tr-lg">
                       <tr>
                         <th className="p-4 pl-10 text-left">No</th>
                         <th className="p-4 text-left">Product</th>
@@ -141,7 +141,7 @@ export default function ProductManagement() {
                               {startIndex + index + 1}
                             </td>
                             <td className="p-4 max-w-xs xl:p-3">
-                              <div className="font-bold text-[#5D070D] text-[18px]">
+                              <div className="font-bold text-[#5D070D] text-[16px]">
                                 {product.product_name.charAt(0).toUpperCase() +
                                   product.product_name.slice(1)}
                               </div>
@@ -161,7 +161,7 @@ export default function ProductManagement() {
                             <td className="p-4 text-[#5D070D]">
                               <button
                                 onClick={() => handleViewDetails(product)}
-                                className="px-4 py-1.5 bg-[#5D070D] text-white text-sm font-medium rounded-md cursor-pointer"
+                                className="px-2 py-1 bg-[#5D070D] text-white text-sm font-medium rounded-md cursor-pointer"
                               >
                                 View
                               </button>
