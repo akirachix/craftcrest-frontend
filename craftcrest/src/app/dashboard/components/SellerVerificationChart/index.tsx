@@ -1,6 +1,5 @@
 import { PieChart, Pie, Cell, ResponsiveContainer } from 'recharts';
-import { SellerVerificationChartProps } from '../../../utils/type'
-import Image from "next/image";
+import { SellerVerificationChartProps } from '../../../utils/type';
 
 export const SellerVerificationChart = ({ data }: SellerVerificationChartProps) => {
   const chartData = [
@@ -10,13 +9,16 @@ export const SellerVerificationChart = ({ data }: SellerVerificationChartProps) 
   const total = data.verified + data.unverified;
 
   return (
-    <div className="bg-white rounded-xl p-6 w-[40vw] max-w-[30vw] h-[30vh] lg:h-[290] shadow-xl border border-gray-50 flex flex-col xl:h-60 ">
+    <div className="bg-white rounded-xl p-6 max-w-full sm:max-w-[380px] md:max-w-[420px] lg:max-w-[450px] xl:max-w-[480px] 
+      h-[250px] sm:h-[280px] md:h-[300px] lg:h-[290px] xl:h-[240px] shadow-xl border border-gray-50 flex flex-col">
+      
       <div className="flex justify-between items-center mb-6">
-        <h3 className="text-lg font-semibold text-[#8B1538]">Seller Verification</h3>
-
+        <h3 className="text-lg sm:text-xl font-semibold text-[#8B1538]">Seller Verification</h3>
       </div>
-      <div className="flex  flex-grow   ">
-        <div className="relative w-[20vw] h-[10vw] ">
+
+      <div className="flex flex-grow">
+        
+        <div className="relative w-[45%] h-full min-w-[120px]">
           <ResponsiveContainer width="100%" height="100%">
             <PieChart>
               <Pie
@@ -36,39 +38,44 @@ export const SellerVerificationChart = ({ data }: SellerVerificationChartProps) 
               </Pie>
             </PieChart>
           </ResponsiveContainer>
+
           <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-            <span className="text-xs text-gray-400">Total</span>
-            <span className="text-2xl font-semibold text-[#8B1538]">{total}</span>
+            <span className="text-xs sm:text-sm text-gray-400">Total</span>
+            <span className="text-xl sm:text-2xl font-semibold text-[#8B1538]">{total}</span>
           </div>
         </div>
-        <div className="flex flex-col justify-between w-full xl:h-35">
+
+        
+        <div className="flex flex-col justify-between w-[55%]  pl-4 xl:pl-6">
           <div>
-            <div className=" mt-6 flex items-center gap-3 mb-4">
+            <div className="mt-6 flex items-center gap-3 mb-4 text-sm sm:text-base">
               <div
                 className="w-4 h-4 rounded-full"
                 style={{ backgroundColor: '#8B1538' }}
-              ></div>
-              <span className="text-sm text-gray-600">Verified</span>
-              <span className="text-sm font-semibold text-[#8B1538] ml-auto">{data.verified} ({((data.verified / total) * 100).toFixed(0)}%)</span>
+              />
+              <span className="text-gray-600">Verified</span>
+              <span className="font-semibold text-[#8B1538] ml-auto">
+                {data.verified} ({((data.verified / total) * 100).toFixed(0)}%)
+              </span>
             </div>
 
-            <div className="flex items-center gap-3">
-              <div className="w-4 h-4 bg-gray-300 rounded-full"></div>
-              <span className="text-sm text-gray-600">Unverified</span>
-              <span className="text-sm font-semibold text-[#8B1538] ml-auto">{data.unverified} ({((data.unverified / total) * 100).toFixed(0)}%)</span>
+            <div className="flex items-center gap-3 text-sm sm:text-base">
+              <div className="w-4 h-4 bg-gray-300 rounded-full" />
+              <span className="text-gray-600">Unverified</span>
+              <span className="font-semibold text-[#8B1538] ml-auto">
+                {data.unverified} ({((data.unverified / total) * 100).toFixed(0)}%)
+              </span>
             </div>
           </div>
 
-          <div className="flex items-center gap-2 border-t border-gray-100 pt-3">
-            <Image
+          <div className="flex items-center  border-t border-gray-100  ml-[-50] text-sm sm:text-base">
+            <img
               src="/images/Verified Badge.svg"
               alt="verification Badge"
-              width={40} 
-              height={40} 
-              className="h-10 object-contain"
+              className="h-8 sm:h-10 object-contain"
             />
-            <span className="text-sm text-gray-600">Verification rate:</span>
-            <span className="text-sm font-semibold text-[#8B1538] ml-auto">{data.verificationRate}%</span>
+            <span className="text-gray-600 ml-[-5]">Verification rate:</span>
+            <span className="font-semibold text-[#8B1538] ">{data.verificationRate}%</span>
           </div>
         </div>
       </div>

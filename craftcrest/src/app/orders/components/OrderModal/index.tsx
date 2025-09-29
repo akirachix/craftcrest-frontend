@@ -74,3 +74,4 @@ const OrderModal = ({ order, onClose }: OrderModalProps) => {
 };
 
 export default OrderModal;
+

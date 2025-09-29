@@ -137,6 +137,8 @@ export interface StatsCardProps {
   value: string;
   icon: LucideIcon;
   iconColor?: string;
+  iconSize?: string;
+  fontSize?: string;
 }
 
 export type Seller = {
